@@ -1,0 +1,4 @@
+*.JPG
+*.jpg
+*.webp
+cmake-build-debug/
