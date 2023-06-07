@@ -16,7 +16,7 @@ struct WebpData {
 
 class ImageController {
 public:
-    explicit ImageController(wxString inputFile);
+    explicit ImageController();
     ~ImageController();
 
     void open(wxString file);

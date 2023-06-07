@@ -8,7 +8,7 @@
 #include <wx/file.h>
 #include "image_dec.h"
 
-ImageController::ImageController(wxString inputFile) {
+ImageController::ImageController() {
 
 }
 
@@ -25,6 +25,11 @@ void ImageController::open(wxString file) {
         std::cerr << "Failed to load image!\n";
 }
 
+int WebPPictureRescaleKeepAR(WebPPicture* pic, int width, int height) {
+    int ratio = std::min(pic->width/width, pic->height/height);
+
+    return WebPPictureRescale(pic, pic->width/ratio, pic->height/ratio);
+}
 
 struct WebpData ImageController::encode(int width, int height) {
     WebPMemoryWriter wrt;
@@ -35,15 +40,14 @@ struct WebpData ImageController::encode(int width, int height) {
     // Only use use_argb if we really need it, as it's slower.
     pic.use_argb = config.lossless || config.use_sharp_yuv || config.preprocessing > 0;
 
-    if(width != -1)
-        pic.width = width;
-    if(height != -1)
-        pic.height = height;
-
     pic.writer = WebPMemoryWrite;
     pic.custom_ptr = &wrt;
 
     WebPMemoryWriterInit(&wrt);
+
+    if(!WebPPictureRescaleKeepAR(&pic, width, height)) {
+        std::cerr << "Cannot rescale image!\n";
+    }
 
     WebPEncode(&config, &pic);
 

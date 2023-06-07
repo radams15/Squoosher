@@ -20,6 +20,7 @@
 #include <wx/settings.h>
 #include <wx/statbmp.h>
 #include <wx/sizer.h>
+#include <wx/scrolwin.h>
 #include <wx/panel.h>
 #include <wx/stattext.h>
 #include <wx/spinctrl.h>
@@ -40,6 +41,7 @@ class MainFrameBase : public wxFrame
 		wxMenuBar* m_menubar1;
 		wxMenu* m_menu1;
 		wxPanel* m_panel1;
+		wxScrolledWindow* ImageScroller;
 		wxStaticBitmap* DisplayImg;
 		wxPanel* m_panel2;
 		wxStaticText* m_staticText1;

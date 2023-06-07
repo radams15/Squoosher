@@ -4,9 +4,11 @@
 
 #include "MainFrame.h"
 
+#define SCROLL_UNITS 10
+
 MainFrame::MainFrame() :
     MainFrameBase(NULL, wxID_ANY, "Squoosher"),
-    controller("/home/rhys/scripts/squoosher/in.jpg") {
+    controller() {
 
 }
 
@@ -19,7 +21,11 @@ void MainFrame::runConversion() {
 
     controller.setQuality(quality);
 
-    DisplayImg->SetBitmap(controller.encodeToBitmap());
+    wxBitmap bitmap = controller.encodeToBitmap(100, 100);
+
+    ImageScroller->SetScrollbars(bitmap.GetWidth()/SCROLL_UNITS, bitmap.GetHeight()/SCROLL_UNITS, SCROLL_UNITS, SCROLL_UNITS, 0, 0);
+
+    DisplayImg->SetBitmap(bitmap);
 }
 
 void MainFrame::OnImageOpen(wxCommandEvent &event) {

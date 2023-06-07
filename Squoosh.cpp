@@ -42,8 +42,19 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	wxBoxSizer* bSizer2;
 	bSizer2 = new wxBoxSizer( wxVERTICAL );
 
-	DisplayImg = new wxStaticBitmap( m_panel1, wxID_ANY, wxNullBitmap, wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer2->Add( DisplayImg, 1, wxALL, 5 );
+	ImageScroller = new wxScrolledWindow( m_panel1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL );
+	ImageScroller->SetScrollRate( 5, 5 );
+	wxBoxSizer* bSizer7;
+	bSizer7 = new wxBoxSizer( wxVERTICAL );
+
+	DisplayImg = new wxStaticBitmap( ImageScroller, wxID_ANY, wxNullBitmap, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer7->Add( DisplayImg, 1, wxALL, 5 );
+
+
+	ImageScroller->SetSizer( bSizer7 );
+	ImageScroller->Layout();
+	bSizer7->Fit( ImageScroller );
+	bSizer2->Add( ImageScroller, 1, wxEXPAND | wxALL, 5 );
 
 
 	m_panel1->SetSizer( bSizer2 );
@@ -89,12 +100,14 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	// Connect Events
 	m_menu1->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnImageOpen ), this, m_menuItem1->GetId());
 	m_menu1->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnImageSave ), this, m_menuItem2->GetId());
+	QualityControl->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( MainFrameBase::OnConvertImg ), NULL, this );
 	ConvertBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnConvertImg ), NULL, this );
 }
 
 MainFrameBase::~MainFrameBase()
 {
 	// Disconnect Events
+	QualityControl->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( MainFrameBase::OnConvertImg ), NULL, this );
 	ConvertBtn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnConvertImg ), NULL, this );
 
 }
