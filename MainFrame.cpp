@@ -18,10 +18,12 @@ void MainFrame::OnConvertImg(wxCommandEvent &event) {
 
 void MainFrame::runConversion() {
     int quality = QualityControl->GetValue();
+    int width = WidthControl->GetValue();
+    int height = HeightControl->GetValue();
 
     controller.setQuality(quality);
 
-    wxBitmap bitmap = controller.encodeToBitmap(100, 100);
+    wxBitmap bitmap = controller.encodeToBitmap(width, height);
 
     ImageScroller->SetScrollbars(bitmap.GetWidth()/SCROLL_UNITS, bitmap.GetHeight()/SCROLL_UNITS, SCROLL_UNITS, SCROLL_UNITS, 0, 0);
 

@@ -47,6 +47,9 @@ class MainFrameBase : public wxFrame
 		wxStaticText* m_staticText1;
 		wxSpinCtrl* QualityControl;
 		wxButton* ConvertBtn;
+		wxStaticText* m_staticText11;
+		wxSpinCtrl* WidthControl;
+		wxSpinCtrl* HeightControl;
 
 		// Virtual event handlers, override them in your derived class
 		virtual void OnImageOpen( wxCommandEvent& event ) { event.Skip(); }
