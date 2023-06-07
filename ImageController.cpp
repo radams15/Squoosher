@@ -45,8 +45,10 @@ struct WebpData ImageController::encode(int width, int height) {
 
     WebPMemoryWriterInit(&wrt);
 
-    if(!WebPPictureRescaleKeepAR(&pic, width, height)) {
-        std::cerr << "Cannot rescale image!\n";
+    if(width != -1 and height != -1) {
+        if (!WebPPictureRescaleKeepAR(&pic, width, height)) {
+            std::cerr << "Cannot rescale image!\n";
+        }
     }
 
     WebPEncode(&config, &pic);

@@ -10,6 +10,7 @@ MainFrame::MainFrame() :
     MainFrameBase(NULL, wxID_ANY, "Squoosher"),
     controller() {
 
+    SetDropTarget(new FileDropTarget(this));
 }
 
 void MainFrame::OnConvertImg(wxCommandEvent &event) {
@@ -41,8 +42,7 @@ void MainFrame::OnImageOpen(wxCommandEvent &event) {
     );
 
     if (dialog.ShowModal() == wxID_OK) {
-        controller.open(dialog.GetPath());
-        runConversion();
+        loadImagePath(dialog.GetPath());
     }
 }
 
@@ -59,4 +59,9 @@ void MainFrame::OnImageSave(wxCommandEvent &event) {
     if (dialog.ShowModal() == wxID_OK) {
         controller.encodeToFile(dialog.GetPath());
     }
+}
+
+void MainFrame::loadImagePath(wxString path) {
+    controller.open(path);
+    runConversion();
 }

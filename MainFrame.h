@@ -5,13 +5,17 @@
 #ifndef SQUOOSHER_MAINFRAME_H
 #define SQUOOSHER_MAINFRAME_H
 
+#include <wx/wx.h>
+
 #include "Squoosh.h"
 #include "ImageController.h"
-#include <wx/wx.h>
+#include "FileDropTarget.h"
 
 class MainFrame : public MainFrameBase {
 public:
     MainFrame();
+
+    void loadImagePath(wxString path);
 
 protected:
     void OnConvertImg( wxCommandEvent& event );
