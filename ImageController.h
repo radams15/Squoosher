@@ -23,7 +23,7 @@ public:
 
     wxImage encodeToImage(int width=-1, int height=-1);
     void encodeToFile(wxString fileName, int width=-1, int height=-1);
-    inline void setQuality(int quality) { config.quality = quality; }
+    void setQuality(int quality);
 private:
     WebPConfig config;
     WebPPicture pic;

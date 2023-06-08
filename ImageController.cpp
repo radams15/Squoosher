@@ -6,6 +6,7 @@
 
 #include <imageio_util.h>
 #include <wx/file.h>
+#include <fstream>
 #include "image_dec.h"
 
 ImageController::ImageController() {
@@ -18,7 +19,7 @@ void ImageController::open(wxString file) {
 
     // Allow quality to go higher than 0.
     config.qmax = 100;
-
+    config.method = 6;
     config.lossless = 0;
 
     if(loadImage(file) != 0)
@@ -44,7 +45,7 @@ struct WebpData ImageController::encode(int width, int height) {
         return {NULL, 0};
 
     //WebPPictureInit(&pictureCopy); // Possibly unneeded.
-    WebPPictureView(&pic, 0, 0, pic.width, pic.height, &pictureCopy); // Deep copies the image data.
+    WebPPictureCopy(&pic, &pictureCopy); // Deep copies the image data.
 
     // Only use use_argb if we really need it, as it's slower.
     pictureCopy.use_argb = config.lossless || config.use_sharp_yuv || config.preprocessing > 0;
@@ -90,6 +91,8 @@ wxImage ImageController::encodeToImage(int width, int height) {
 
     struct WebpData data = encode(width, height);
 
+    std::printf("Image %d bytes\n", data.length);
+
     if(data.length == 0)
         return wxImage{};
 
@@ -104,13 +107,17 @@ wxImage ImageController::encodeToImage(int width, int height) {
 void ImageController::encodeToFile(wxString fileName, int width, int height) {
     struct WebpData data = encode(width, height);
 
-    wxFile os(fileName, wxFile::read_write);
+    std::ofstream of(fileName.ToStdString());
 
-    os.Write(data.data, data.length);
+    of.write((const char*) data.data, data.length);
 
-    os.Close();
+    of.close();
 }
 
 ImageController::~ImageController() {
     WebPPictureFree(&pic);
+}
+
+void ImageController::setQuality(int quality) {
+    config.quality = (float) quality;
 }
