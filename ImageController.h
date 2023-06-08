@@ -21,7 +21,7 @@ public:
 
     void open(wxString file);
 
-    wxBitmap encodeToBitmap(int width=-1, int height=-1);
+    wxImage encodeToImage(int width=-1, int height=-1);
     void encodeToFile(wxString fileName, int width=-1, int height=-1);
     inline void setQuality(int quality) { config.quality = quality; }
 private:

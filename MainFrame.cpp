@@ -24,11 +24,15 @@ void MainFrame::runConversion() {
 
     controller.setQuality(quality);
 
-    wxBitmap bitmap = controller.encodeToBitmap(width, height);
+    wxImage img = controller.encodeToImage();
+    if(width > 0 and height > 0) {
+        int ratio = std::min(img.GetWidth()/width, img.GetHeight()/height);
+        img.Rescale(img.GetWidth()/ratio, img.GetHeight()/ratio);
+    }
 
-    ImageScroller->SetScrollbars(bitmap.GetWidth()/SCROLL_UNITS, bitmap.GetHeight()/SCROLL_UNITS, SCROLL_UNITS, SCROLL_UNITS, 0, 0);
+    ImageScroller->SetScrollbars(img.GetWidth()/SCROLL_UNITS, img.GetHeight()/SCROLL_UNITS, SCROLL_UNITS, SCROLL_UNITS, 0, 0);
 
-    DisplayImg->SetBitmap(bitmap);
+    DisplayImg->SetBitmap(img);
 }
 
 void MainFrame::OnImageOpen(wxCommandEvent &event) {
@@ -57,7 +61,10 @@ void MainFrame::OnImageSave(wxCommandEvent &event) {
     );
 
     if (dialog.ShowModal() == wxID_OK) {
-        controller.encodeToFile(dialog.GetPath());
+        int width = WidthControl->GetValue();
+        int height = HeightControl->GetValue();
+
+        controller.encodeToFile(dialog.GetPath(), width, height);
     }
 }
 

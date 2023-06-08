@@ -31,27 +31,37 @@ int WebPPictureRescaleKeepAR(WebPPicture* pic, int width, int height) {
     return WebPPictureRescale(pic, pic->width/ratio, pic->height/ratio);
 }
 
+/*int WebPPictureDup(WebPPicture* src, WebPPicture* dst) {
+    uint8_t* rgb = WebPDecodeRGB(data.data, data.length, &pic.width, &pic.height);
+    WebPEncodeRGB()
+}*/
+
 struct WebpData ImageController::encode(int width, int height) {
     WebPMemoryWriter wrt;
+    WebPPicture pictureCopy;
 
-    if(pic.width == 0 or pic.height == 0) // No image is loaded
+    if(pic.width == 0 or pic.height == 0) // No image is loaded.
         return {NULL, 0};
 
-    // Only use use_argb if we really need it, as it's slower.
-    pic.use_argb = config.lossless || config.use_sharp_yuv || config.preprocessing > 0;
+    //WebPPictureInit(&pictureCopy); // Possibly unneeded.
+    WebPPictureView(&pic, 0, 0, pic.width, pic.height, &pictureCopy); // Deep copies the image data.
 
-    pic.writer = WebPMemoryWrite;
-    pic.custom_ptr = &wrt;
+    // Only use use_argb if we really need it, as it's slower.
+    pictureCopy.use_argb = config.lossless || config.use_sharp_yuv || config.preprocessing > 0;
+
+    pictureCopy.writer = WebPMemoryWrite;
+    pictureCopy.custom_ptr = &wrt;
 
     WebPMemoryWriterInit(&wrt);
 
-    if(width != -1 and height != -1) {
-        if (!WebPPictureRescaleKeepAR(&pic, width, height)) {
+    if(width > 0 and height > 0) {
+        if (!WebPPictureRescaleKeepAR(&pictureCopy, width, height)) {
             std::cerr << "Cannot rescale image!\n";
         }
     }
 
-    WebPEncode(&config, &pic);
+    WebPEncode(&config, &pictureCopy);
+    WebPPictureFree(&pictureCopy);
 
     return {
         wrt.mem,
@@ -75,20 +85,20 @@ int ImageController::loadImage(wxString fileName) {
     return ok != 1;
 }
 
-wxBitmap ImageController::encodeToBitmap(int width, int height) {
+wxImage ImageController::encodeToImage(int width, int height) {
     wxImage out;
 
     struct WebpData data = encode(width, height);
 
     if(data.length == 0)
-        return wxBitmap{};
+        return wxImage{};
 
     uint8_t* rgb = WebPDecodeRGB(data.data, data.length, &pic.width, &pic.height);
 
     out.Create(pic.width, pic.height, rgb, false);
     out.SetMask(false);
 
-    return wxBitmap{out};
+    return out;
 }
 
 void ImageController::encodeToFile(wxString fileName, int width, int height) {
