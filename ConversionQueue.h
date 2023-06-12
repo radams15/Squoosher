@@ -14,6 +14,7 @@
 struct ConversionElement {
     ImageController* controller;
     int quality, width, height;
+    bool lossless;
 };
 
 class ConversionQueue;

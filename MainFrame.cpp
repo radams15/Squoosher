@@ -32,11 +32,13 @@ void MainFrame::runConversion() {
     int quality = QualityControl->GetValue();
     int width = WidthControl->GetValue();
     int height = HeightControl->GetValue();
+    bool lossless = LosslessCheckbox->GetValue();
 
     for(ConversionElement& elem : conversionQueue.queue) {
         elem.quality = quality;
         elem.width = width;
         elem.height = height;
+        elem.lossless = lossless;
     }
 
     GetStatusBar()->SetStatusText("Conversion in progress...");
@@ -58,30 +60,13 @@ void MainFrame::OnImageOpen(wxCommandEvent &event) {
     }
 }
 
-void MainFrame::OnImageSave(wxCommandEvent &event) {
-    wxFileDialog dialog(
-          this,
-        _T("Save webp file"),
-        wxEmptyString,
-        wxEmptyString,
-        _T("WEBP files (*.webp)"),
-           wxFD_SAVE|wxFD_OVERWRITE_PROMPT
-    );
-
-    if (dialog.ShowModal() == wxID_OK) {
-        int width = WidthControl->GetValue();
-        int height = HeightControl->GetValue();
-
-        controller.encodeToFile(dialog.GetPath(), width, height);
-    }
-}
-
 void MainFrame::loadImagePath(wxString path) {
     conversionQueue.addToQueue({
         .controller = new ImageController(path),
         .quality = 75,
         .width = 0,
-        .height = 0
+        .height = 0,
+        .lossless = 0
     });
 }
 

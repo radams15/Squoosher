@@ -27,6 +27,7 @@ public:
     wxImage encodeToImage(int width=-1, int height=-1);
     void encodeToFile(wxString fileName, int width=-1, int height=-1);
     void setQuality(int quality);
+    void setLossless(bool lossless);
 private:
     WebPConfig config;
     WebPPicture pic;

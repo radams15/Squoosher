@@ -22,6 +22,7 @@
 #include <wx/scrolwin.h>
 #include <wx/stattext.h>
 #include <wx/spinctrl.h>
+#include <wx/checkbox.h>
 #include <wx/button.h>
 #include <wx/panel.h>
 #include <wx/frame.h>
@@ -50,11 +51,11 @@ class MainFrameBase : public wxFrame
 		wxSpinCtrl* WidthControl;
 		wxStaticText* m_staticText6;
 		wxSpinCtrl* HeightControl;
+		wxCheckBox* LosslessCheckbox;
 		wxButton* ConvertBtn;
 
 		// Virtual event handlers, override them in your derived class
 		virtual void OnImageOpen( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnImageSave( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnConvertImg( wxCommandEvent& event ) { event.Skip(); }
 
 
@@ -74,9 +75,9 @@ class ItemPanelBase : public wxPanel
 	private:
 
 	protected:
+		wxStaticBitmap* IconBitmap;
 		wxStaticText* TitleLabel;
 		wxStaticText* DoneLabel;
-		wxStaticBitmap* IconBitmap;
 
 	public:
 

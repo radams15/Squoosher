@@ -11,7 +11,7 @@
 
 MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
 {
-	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	this->SetSizeHints( wxSize( 800,600 ), wxDefaultSize );
 
 	m_menubar1 = new wxMenuBar( 0 );
 	m_menu1 = new wxMenu();
@@ -24,10 +24,6 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	#endif
 	m_menu1->Append( m_menuItem1 );
 
-	wxMenuItem* m_menuItem2;
-	m_menuItem2 = new wxMenuItem( m_menu1, wxID_ANY, wxString( wxT("Save") ) + wxT('\t') + wxT("ctrl-s"), wxEmptyString, wxITEM_NORMAL );
-	m_menu1->Append( m_menuItem2 );
-
 	m_menubar1->Append( m_menu1, wxT("File") );
 
 	this->SetMenuBar( m_menubar1 );
@@ -38,7 +34,7 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	wxBoxSizer* MainSizer;
 	MainSizer = new wxBoxSizer( wxHORIZONTAL );
 
-	ConvertingImagesScroller = new wxScrolledWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL );
+	ConvertingImagesScroller = new wxScrolledWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL );
 	ConvertingImagesScroller->SetScrollRate( 5, 5 );
 	ConvertingImagesSizer = new wxBoxSizer( wxVERTICAL );
 
@@ -107,6 +103,15 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 
 	bSizer3->Add( bSizer41, 1, wxEXPAND, 5 );
 
+	wxBoxSizer* bSizer42;
+	bSizer42 = new wxBoxSizer( wxHORIZONTAL );
+
+	LosslessCheckbox = new wxCheckBox( m_panel2, wxID_ANY, wxT("Lossless"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer42->Add( LosslessCheckbox, 0, wxALL, 5 );
+
+
+	bSizer3->Add( bSizer42, 1, wxEXPAND, 5 );
+
 	ConvertBtn = new wxButton( m_panel2, wxID_ANY, wxT("Convert"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer3->Add( ConvertBtn, 0, wxALL, 5 );
 
@@ -127,7 +132,6 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 
 	// Connect Events
 	m_menu1->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnImageOpen ), this, m_menuItem1->GetId());
-	m_menu1->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnImageSave ), this, m_menuItem2->GetId());
 	ConvertBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnConvertImg ), NULL, this );
 }
 
@@ -143,22 +147,22 @@ ItemPanelBase::ItemPanelBase( wxWindow* parent, wxWindowID id, const wxPoint& po
 	wxBoxSizer* bSizer10;
 	bSizer10 = new wxBoxSizer( wxHORIZONTAL );
 
+	IconBitmap = new wxStaticBitmap( this, wxID_ANY, wxNullBitmap, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer10->Add( IconBitmap, 2, wxALL, 5 );
+
 	wxBoxSizer* bSizer13;
 	bSizer13 = new wxBoxSizer( wxVERTICAL );
 
 	TitleLabel = new wxStaticText( this, wxID_ANY, wxT("File Name"), wxDefaultPosition, wxDefaultSize, 0 );
 	TitleLabel->Wrap( -1 );
-	bSizer13->Add( TitleLabel, 1, wxALL, 5 );
+	bSizer13->Add( TitleLabel, 1, wxALL|wxEXPAND, 5 );
 
 	DoneLabel = new wxStaticText( this, wxID_ANY, wxT("Incomplete"), wxDefaultPosition, wxDefaultSize, 0 );
 	DoneLabel->Wrap( -1 );
-	bSizer13->Add( DoneLabel, 1, wxALL, 5 );
+	bSizer13->Add( DoneLabel, 1, wxALL|wxEXPAND, 5 );
 
 
-	bSizer10->Add( bSizer13, 1, wxEXPAND, 5 );
-
-	IconBitmap = new wxStaticBitmap( this, wxID_ANY, wxNullBitmap, wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer10->Add( IconBitmap, 4, wxALL, 5 );
+	bSizer10->Add( bSizer13, 1, wxEXPAND, 3 );
 
 
 	this->SetSizer( bSizer10 );

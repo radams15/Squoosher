@@ -21,7 +21,6 @@ public:
 protected:
     void OnConvertImg( wxCommandEvent& event );
     void OnImageOpen( wxCommandEvent& event );
-    void OnImageSave( wxCommandEvent& event );
 private:
     ImageController controller;
     ConversionQueue conversionQueue;

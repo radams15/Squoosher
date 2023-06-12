@@ -68,6 +68,8 @@ wxThread::ExitCode ConversionThread::Entry() {
 
         wxString newName = elem.controller->imageName + ".webp";
         elem.controller->setQuality(elem.quality);
+        elem.controller->setLossless(elem.lossless);
+
         elem.controller->encodeToFile(newName, elem.width, elem.height);
 
         wxCommandEvent evt(ITEM_CONVERSION_COMPLETE, wxID_ANY);

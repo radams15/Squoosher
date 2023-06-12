@@ -4,6 +4,8 @@
 
 #include "ItemPanel.h"
 
+#define ICON_SIZE 64
+
 ItemPanel::ItemPanel(wxWindow *parent, wxString name) :
         ItemPanelBase(parent, wxID_ANY) {
     TitleLabel->SetLabel(name);
@@ -11,7 +13,7 @@ ItemPanel::ItemPanel(wxWindow *parent, wxString name) :
 
 #ifdef IMAGE_PREVIEWS
     wxImage img(name);
-    img.Rescale(128, 128);
+    img.Rescale(ICON_SIZE, ICON_SIZE);
     IconBitmap->SetBitmap(wxBitmap(img));
 #endif
 

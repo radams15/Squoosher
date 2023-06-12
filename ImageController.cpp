@@ -26,7 +26,6 @@ void ImageController::open(wxString file) {
     // Allow quality to go higher than 0.
     //config.qmax = 100;
     //config.method = 6;
-    config.lossless = 0;
 
     if(loadImage(file) != 0)
         std::cerr << "Failed to load image!\n";
@@ -124,4 +123,8 @@ ImageController::~ImageController() {
 
 void ImageController::setQuality(int quality) {
     config.quality = (float) quality;
+}
+
+void ImageController::setLossless(bool lossless) {
+    config.lossless = lossless;
 }
