@@ -9,6 +9,8 @@
 wxDEFINE_EVENT(CONVERSION_COMPLETE, wxCommandEvent);
 wxDEFINE_EVENT(ITEM_CONVERSION_COMPLETE, wxCommandEvent);
 
+#define Redraw() wxPostEvent(wxTheApp->GetTopWindow(), wxSizeEvent());
+
 ConversionQueue::ConversionQueue(wxWindow *parent) :
         wxPanel(parent),
         mainSizer(wxVERTICAL),
@@ -29,15 +31,18 @@ void ConversionQueue::addToQueue(ConversionElement element) {
     ItemPanel* panel = new ItemPanel(this, element.controller->imageName);
     mainSizer.Add(panel, 1, wxALL, 5);
 
-    wxPostEvent(wxTheApp->GetTopWindow(), wxSizeEvent());
+    Redraw();
 }
 
-void ConversionQueue::dequeue() {
+ConversionElement& ConversionQueue::dequeue() {
+    ConversionElement& elem = queue.back();
     queue.pop_back();
+
     mainSizer.GetChildren().back()->Show(false);
-    delete mainSizer.GetChildren().back();
     mainSizer.GetChildren().pop_back();
-    mainSizer.Layout();
+    Redraw();
+
+    return elem;
 }
 
 ConversionThread::ConversionThread(ConversionQueue *parentQueue) :
@@ -47,17 +52,18 @@ ConversionThread::ConversionThread(ConversionQueue *parentQueue) :
 }
 
 wxThread::ExitCode ConversionThread::Entry() {
-    for(const ConversionElement& elem : queue->queue) {
-        wxString newName = elem.controller->imageName + ".webp";
-        elem.controller->setQuality(elem.quality);
-        elem.controller->encodeToFile(newName, elem.width, elem.height);
+    while(!TestDestroy()) {
+        if(! queue->queue.empty()) {
+            ConversionElement& elem = queue->dequeue();
 
-        wxCommandEvent evt(ITEM_CONVERSION_COMPLETE, wxID_ANY);
-        evt.SetEventObject((wxObject*) &elem);
-        wxPostEvent(wxTheApp->GetTopWindow(), evt);
+            wxString newName = elem.controller->imageName + ".webp";
+            elem.controller->setQuality(elem.quality);
+            elem.controller->encodeToFile(newName, elem.width, elem.height);
 
-        if(TestDestroy())
-            break;
+            wxCommandEvent evt(ITEM_CONVERSION_COMPLETE, wxID_ANY);
+            evt.SetEventObject((wxObject*) &elem);
+            wxPostEvent(wxTheApp->GetTopWindow(), evt);
+        }
     }
 
     wxCommandEvent evt(CONVERSION_COMPLETE, wxID_ANY);

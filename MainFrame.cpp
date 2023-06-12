@@ -87,5 +87,5 @@ void MainFrame::OnConversionComplete(wxCommandEvent &event) {
 
 void MainFrame::OnItemConversionComplete(wxCommandEvent &event) {
     std::cout << "Item conversion completed!!!! (" << ((ConversionElement*)event.GetEventObject())->controller->imageName << ")\n";
-    conversionQueue.dequeue();
+    //conversionQueue.dequeue();
 }

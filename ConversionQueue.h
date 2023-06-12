@@ -39,7 +39,7 @@ public:
     void beginConversion();
     void addToQueue(ConversionElement element);
 
-    void dequeue();
+    ConversionElement& dequeue();
 
     std::vector<ConversionElement> queue;
 private:
