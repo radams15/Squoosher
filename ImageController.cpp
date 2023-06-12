@@ -35,11 +35,11 @@ void ImageController::open(wxString file) {
 }
 
 int WebPPictureRescaleKeepAR(WebPPicture* pic, int width, int height) {
-    float ratio = min((float)pic->width/(float)width, (float)pic->height/(float)height);
+    double ratio = min((double)pic->width/(double)width, (double)pic->height/(double)height);
 
-    printf("Ratio is %f\n", ratio);
+    printf("Resize ratio is %f\n", ratio);
 
-    return WebPPictureRescale(pic, (int) ((float)pic->width/ratio), (int) ((float)pic->height/ratio));
+    return WebPPictureRescale(pic, (int) ((double)pic->width/ratio), (int) ((double)pic->height/ratio));
 }
 
 struct WebpData ImageController::encode(int width, int height) {

@@ -26,6 +26,11 @@ private:
     ImageController controller;
     ConversionQueue conversionQueue;
     void runConversion();
+
+    void OnConversionComplete(wxCommandEvent& event);
+    void OnItemConversionComplete(wxCommandEvent& event);
+
+wxDECLARE_EVENT_TABLE();
 };
 
 

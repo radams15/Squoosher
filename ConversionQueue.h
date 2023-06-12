@@ -18,6 +18,9 @@ struct ConversionElement {
 
 class ConversionQueue;
 
+wxDECLARE_EVENT(CONVERSION_COMPLETE, wxCommandEvent);
+wxDECLARE_EVENT(ITEM_CONVERSION_COMPLETE, wxCommandEvent);
+
 class ConversionThread : public wxThread {
 public:
     explicit ConversionThread(ConversionQueue* parentQueue);
@@ -35,6 +38,8 @@ public:
 
     void beginConversion();
     void addToQueue(ConversionElement element);
+
+    void dequeue();
 
     std::vector<ConversionElement> queue;
 private:

@@ -4,6 +4,10 @@
 
 #include "ConversionQueue.h"
 #include "ItemPanel.h"
+#include "MainFrame.h"
+
+wxDEFINE_EVENT(CONVERSION_COMPLETE, wxCommandEvent);
+wxDEFINE_EVENT(ITEM_CONVERSION_COMPLETE, wxCommandEvent);
 
 ConversionQueue::ConversionQueue(wxWindow *parent) :
         wxPanel(parent),
@@ -23,34 +27,43 @@ void ConversionQueue::beginConversion() {
 void ConversionQueue::addToQueue(ConversionElement element) {
     queue.push_back(element);
     ItemPanel* panel = new ItemPanel(this, element.controller->imageName);
-    mainSizer.Add(panel);
+    mainSizer.Add(panel, 1, wxALL, 5);
+
+    wxPostEvent(wxTheApp->GetTopWindow(), wxSizeEvent());
+}
+
+void ConversionQueue::dequeue() {
+    queue.pop_back();
+    mainSizer.GetChildren().back()->Show(false);
+    delete mainSizer.GetChildren().back();
+    mainSizer.GetChildren().pop_back();
+    mainSizer.Layout();
 }
 
 ConversionThread::ConversionThread(ConversionQueue *parentQueue) :
-    wxThread(wxTHREAD_DETACHED),
+    wxThread(wxTHREAD_JOINABLE),
     queue(parentQueue) {
 
 }
 
 wxThread::ExitCode ConversionThread::Entry() {
-    while(!TestDestroy()) {
-        for(auto elem : queue->queue) {
-            wxString newName = elem.controller->imageName + ".webp";
-            elem.controller->setQuality(elem.quality);
+    for(const ConversionElement& elem : queue->queue) {
+        wxString newName = elem.controller->imageName + ".webp";
+        elem.controller->setQuality(elem.quality);
+        elem.controller->encodeToFile(newName, elem.width, elem.height);
 
-            std::printf("Converting '%s' to '%s'\n", (const char*) elem.controller->imageName.c_str(), (const char*) newName.c_str());
+        wxCommandEvent evt(ITEM_CONVERSION_COMPLETE, wxID_ANY);
+        evt.SetEventObject((wxObject*) &elem);
+        wxPostEvent(wxTheApp->GetTopWindow(), evt);
 
-            elem.controller->encodeToFile(newName, elem.width, elem.height);
-        }
-
-        goto done;
+        if(TestDestroy())
+            break;
     }
 
-done:
+    wxCommandEvent evt(CONVERSION_COMPLETE, wxID_ANY);
+    wxPostEvent(wxTheApp->GetTopWindow(), evt);
 
-    std::printf("Conversion complete!\n");
-
-    return (ExitCode) malloc(1);
+    return (ExitCode) 0;
 }
 
 ConversionThread::~ConversionThread() {

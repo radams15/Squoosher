@@ -20,11 +20,10 @@
 #include <wx/settings.h>
 #include <wx/sizer.h>
 #include <wx/scrolwin.h>
-#include <wx/statbmp.h>
-#include <wx/panel.h>
 #include <wx/stattext.h>
 #include <wx/spinctrl.h>
 #include <wx/button.h>
+#include <wx/panel.h>
 #include <wx/frame.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -40,10 +39,8 @@ class MainFrameBase : public wxFrame
 	protected:
 		wxMenuBar* m_menubar1;
 		wxMenu* m_menu1;
-		wxScrolledWindow* m_scrolledWindow2;
-		wxPanel* m_panel1;
-		wxScrolledWindow* ImageScroller;
-		wxStaticBitmap* DisplayImg;
+		wxScrolledWindow* ConvertingImagesScroller;
+		wxBoxSizer* ConvertingImagesSizer;
 		wxPanel* m_panel2;
 		wxStaticText* m_staticText1;
 		wxSpinCtrl* QualityControl;
@@ -79,7 +76,7 @@ class ItemPanelBase : public wxPanel
 
 	public:
 
-		ItemPanelBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,300 ), long style = wxTAB_TRAVERSAL, const wxString& name = wxEmptyString );
+		ItemPanelBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 488,101 ), long style = wxTAB_TRAVERSAL, const wxString& name = wxEmptyString );
 
 		~ItemPanelBase();
 

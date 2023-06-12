@@ -35,43 +35,18 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	wxBoxSizer* bSizer1;
 	bSizer1 = new wxBoxSizer( wxVERTICAL );
 
-	wxBoxSizer* bSizer6;
-	bSizer6 = new wxBoxSizer( wxHORIZONTAL );
+	wxBoxSizer* MainSizer;
+	MainSizer = new wxBoxSizer( wxHORIZONTAL );
 
-	m_scrolledWindow2 = new wxScrolledWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL );
-	m_scrolledWindow2->SetScrollRate( 5, 5 );
-	wxBoxSizer* ConvertingImagesSizer;
+	ConvertingImagesScroller = new wxScrolledWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL );
+	ConvertingImagesScroller->SetScrollRate( 5, 5 );
 	ConvertingImagesSizer = new wxBoxSizer( wxVERTICAL );
 
 
-	m_scrolledWindow2->SetSizer( ConvertingImagesSizer );
-	m_scrolledWindow2->Layout();
-	ConvertingImagesSizer->Fit( m_scrolledWindow2 );
-	bSizer6->Add( m_scrolledWindow2, 1, wxEXPAND | wxALL, 5 );
-
-	m_panel1 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	wxBoxSizer* bSizer2;
-	bSizer2 = new wxBoxSizer( wxVERTICAL );
-
-	ImageScroller = new wxScrolledWindow( m_panel1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL );
-	ImageScroller->SetScrollRate( 5, 5 );
-	wxBoxSizer* bSizer7;
-	bSizer7 = new wxBoxSizer( wxVERTICAL );
-
-	DisplayImg = new wxStaticBitmap( ImageScroller, wxID_ANY, wxNullBitmap, wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer7->Add( DisplayImg, 1, wxALL, 5 );
-
-
-	ImageScroller->SetSizer( bSizer7 );
-	ImageScroller->Layout();
-	bSizer7->Fit( ImageScroller );
-	bSizer2->Add( ImageScroller, 1, wxEXPAND | wxALL, 5 );
-
-
-	m_panel1->SetSizer( bSizer2 );
-	m_panel1->Layout();
-	bSizer2->Fit( m_panel1 );
-	bSizer6->Add( m_panel1, 3, wxEXPAND | wxALL, 5 );
+	ConvertingImagesScroller->SetSizer( ConvertingImagesSizer );
+	ConvertingImagesScroller->Layout();
+	ConvertingImagesSizer->Fit( ConvertingImagesScroller );
+	MainSizer->Add( ConvertingImagesScroller, 4, wxEXPAND | wxALL, 5 );
 
 	m_panel2 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer3;
@@ -119,10 +94,10 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_panel2->SetSizer( bSizer3 );
 	m_panel2->Layout();
 	bSizer3->Fit( m_panel2 );
-	bSizer6->Add( m_panel2, 1, wxEXPAND | wxALL, 5 );
+	MainSizer->Add( m_panel2, 1, wxEXPAND | wxALL, 5 );
 
 
-	bSizer1->Add( bSizer6, 1, wxEXPAND, 5 );
+	bSizer1->Add( MainSizer, 1, wxEXPAND, 5 );
 
 
 	this->SetSizer( bSizer1 );
@@ -150,11 +125,11 @@ ItemPanelBase::ItemPanelBase( wxWindow* parent, wxWindowID id, const wxPoint& po
 
 	TitleLabel = new wxStaticText( this, wxID_ANY, wxT("File Name"), wxDefaultPosition, wxDefaultSize, 0 );
 	TitleLabel->Wrap( -1 );
-	bSizer10->Add( TitleLabel, 0, wxALL, 5 );
+	bSizer10->Add( TitleLabel, 1, wxALL, 5 );
 
 	DoneLabel = new wxStaticText( this, wxID_ANY, wxT("Incomplete"), wxDefaultPosition, wxDefaultSize, 0 );
 	DoneLabel->Wrap( -1 );
-	bSizer10->Add( DoneLabel, 0, wxALL, 5 );
+	bSizer10->Add( DoneLabel, 1, wxALL, 5 );
 
 
 	this->SetSizer( bSizer10 );
