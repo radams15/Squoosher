@@ -14,11 +14,13 @@ wxEND_EVENT_TABLE()
 MainFrame::MainFrame() :
     MainFrameBase(NULL, wxID_ANY, "Squoosher"),
     controller(),
-    conversionQueue(ConvertingImagesScroller) {
+    conversionQueue(ConvertingImagesScroller),
+    totalConverted(0) {
 
     ConvertingImagesSizer->Add(&conversionQueue, 1, wxALL, 5);
 
     SetDropTarget(new FileDropTarget(this));
+    CreateStatusBar();
 }
 
 void MainFrame::OnConvertImg(wxCommandEvent &event) {
@@ -82,10 +84,11 @@ void MainFrame::loadImagePath(wxString path) {
 }
 
 void MainFrame::OnConversionComplete(wxCommandEvent &event) {
-    std::cout << "Conversion completed!!!!\n";
+    conversionQueue.Reset();
 }
 
 void MainFrame::OnItemConversionComplete(wxCommandEvent &event) {
-    std::cout << "Item conversion completed!!!! (" << ((ConversionElement*)event.GetEventObject())->controller->imageName << ")\n";
-    //conversionQueue.dequeue();
+    totalConverted++;
+
+    GetStatusBar()->SetStatusText(wxString::Format("Converted %d items", totalConverted));
 }

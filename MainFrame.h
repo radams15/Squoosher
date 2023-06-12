@@ -25,6 +25,8 @@ protected:
 private:
     ImageController controller;
     ConversionQueue conversionQueue;
+    int totalConverted;
+
     void runConversion();
 
     void OnConversionComplete(wxCommandEvent& event);

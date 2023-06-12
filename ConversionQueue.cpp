@@ -45,6 +45,14 @@ ConversionElement& ConversionQueue::dequeue() {
     return elem;
 }
 
+void ConversionQueue::Reset() {
+    thread->Kill();
+    delete thread;
+
+    thread = new ConversionThread(this);
+    queue.clear();
+}
+
 ConversionThread::ConversionThread(ConversionQueue *parentQueue) :
     wxThread(wxTHREAD_JOINABLE),
     queue(parentQueue) {
@@ -52,18 +60,19 @@ ConversionThread::ConversionThread(ConversionQueue *parentQueue) :
 }
 
 wxThread::ExitCode ConversionThread::Entry() {
-    while(!TestDestroy()) {
-        if(! queue->queue.empty()) {
-            ConversionElement& elem = queue->dequeue();
+    while(! queue->queue.empty()) {
+        ConversionElement& elem = queue->dequeue();
 
-            wxString newName = elem.controller->imageName + ".webp";
-            elem.controller->setQuality(elem.quality);
-            elem.controller->encodeToFile(newName, elem.width, elem.height);
+        wxString newName = elem.controller->imageName + ".webp";
+        elem.controller->setQuality(elem.quality);
+        elem.controller->encodeToFile(newName, elem.width, elem.height);
 
-            wxCommandEvent evt(ITEM_CONVERSION_COMPLETE, wxID_ANY);
-            evt.SetEventObject((wxObject*) &elem);
-            wxPostEvent(wxTheApp->GetTopWindow(), evt);
-        }
+        wxCommandEvent evt(ITEM_CONVERSION_COMPLETE, wxID_ANY);
+        evt.SetEventObject((wxObject*) &elem);
+        wxPostEvent(wxTheApp->GetTopWindow(), evt);
+
+        if(TestDestroy())
+            break;
     }
 
     wxCommandEvent evt(CONVERSION_COMPLETE, wxID_ANY);

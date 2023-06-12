@@ -35,6 +35,7 @@ class ConversionQueue : public wxPanel {
 friend ConversionThread;
 public:
     explicit ConversionQueue(wxWindow* parent);
+    void Reset();
 
     void beginConversion();
     void addToQueue(ConversionElement element);
