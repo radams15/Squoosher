@@ -65,9 +65,6 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 
 	bSizer3->Add( bSizer4, 1, wxEXPAND, 5 );
 
-	ConvertBtn = new wxButton( m_panel2, wxID_ANY, wxT("Convert"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer3->Add( ConvertBtn, 0, wxALL, 5 );
-
 	wxBoxSizer* bSizer41;
 	bSizer41 = new wxBoxSizer( wxHORIZONTAL );
 
@@ -78,17 +75,40 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	wxBoxSizer* bSizer11;
 	bSizer11 = new wxBoxSizer( wxVERTICAL );
 
+	wxBoxSizer* bSizer9;
+	bSizer9 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText5 = new wxStaticText( m_panel2, wxID_ANY, wxT("Width"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText5->Wrap( -1 );
+	bSizer9->Add( m_staticText5, 0, wxALL, 5 );
+
 	WidthControl = new wxSpinCtrl( m_panel2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 0, 10000000, -1 );
-	bSizer11->Add( WidthControl, 0, wxALL, 5 );
+	bSizer9->Add( WidthControl, 0, wxALL, 5 );
+
+
+	bSizer11->Add( bSizer9, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer91;
+	bSizer91 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText6 = new wxStaticText( m_panel2, wxID_ANY, wxT("Height"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText6->Wrap( -1 );
+	bSizer91->Add( m_staticText6, 0, wxALL, 5 );
 
 	HeightControl = new wxSpinCtrl( m_panel2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 0, 10000000, 0 );
-	bSizer11->Add( HeightControl, 0, wxALL, 5 );
+	bSizer91->Add( HeightControl, 0, wxALL, 5 );
+
+
+	bSizer11->Add( bSizer91, 1, wxEXPAND, 5 );
 
 
 	bSizer41->Add( bSizer11, 1, wxEXPAND, 5 );
 
 
 	bSizer3->Add( bSizer41, 1, wxEXPAND, 5 );
+
+	ConvertBtn = new wxButton( m_panel2, wxID_ANY, wxT("Convert"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer3->Add( ConvertBtn, 0, wxALL, 5 );
 
 
 	m_panel2->SetSizer( bSizer3 );

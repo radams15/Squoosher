@@ -28,6 +28,7 @@ void MainFrame::OnConvertImg(wxCommandEvent &event) {
 }
 
 void MainFrame::runConversion() {
+    ConvertBtn->Disable();
     int quality = QualityControl->GetValue();
     int width = WidthControl->GetValue();
     int height = HeightControl->GetValue();
@@ -38,6 +39,7 @@ void MainFrame::runConversion() {
         elem.height = height;
     });
 
+    GetStatusBar()->SetStatusText("Conversion in progress...");
     conversionQueue.beginConversion();
 }
 
@@ -85,10 +87,10 @@ void MainFrame::loadImagePath(wxString path) {
 
 void MainFrame::OnConversionComplete(wxCommandEvent &event) {
     conversionQueue.Reset();
+    ConvertBtn->Enable();
+    GetStatusBar()->SetStatusText(wxString::Format("Converted %d items", totalConverted));
 }
 
 void MainFrame::OnItemConversionComplete(wxCommandEvent &event) {
     totalConverted++;
-
-    GetStatusBar()->SetStatusText(wxString::Format("Converted %d items", totalConverted));
 }

@@ -2,3 +2,4 @@
 *.jpg
 *.webp
 cmake-build-debug/
+builddir/

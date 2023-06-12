@@ -16,3 +16,6 @@ add_executable(squoosher SquooshApp.cpp SquooshApp.h Squoosh.cpp Squoosh.h MainF
 
 target_include_directories(squoosher PRIVATE ${WEBP_INCLUDE_DIRS} imageio)
 target_link_libraries(squoosher PRIVATE ${wxWidgets_LIBRARIES} ${WEBP_LIBRARIES} imageio)
+
+install(TARGETS squoosher DESTINATION bin)
+install(FILES res/squoosher.desktop res/squoosher.png DESTINATION share/applications/)
