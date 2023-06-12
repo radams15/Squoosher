@@ -92,7 +92,7 @@ int ImgIoUtilReadFile(const char* const file_name,
   file_size = ftell(in);
   fseek(in, 0, SEEK_SET);
   // we allocate one extra byte for the \0 terminator
-  file_data = (uint8_t*)WebPMalloc(file_size + 1);
+  file_data = (uint8_t*)malloc(file_size + 1);
   if (file_data == NULL) {
     fclose(in);
     WFPRINTF(stderr, "memory allocation failure when reading file %s\n",

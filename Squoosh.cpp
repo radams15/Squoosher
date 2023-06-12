@@ -141,15 +141,24 @@ MainFrameBase::~MainFrameBase()
 ItemPanelBase::ItemPanelBase( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name ) : wxPanel( parent, id, pos, size, style, name )
 {
 	wxBoxSizer* bSizer10;
-	bSizer10 = new wxBoxSizer( wxVERTICAL );
+	bSizer10 = new wxBoxSizer( wxHORIZONTAL );
+
+	wxBoxSizer* bSizer13;
+	bSizer13 = new wxBoxSizer( wxVERTICAL );
 
 	TitleLabel = new wxStaticText( this, wxID_ANY, wxT("File Name"), wxDefaultPosition, wxDefaultSize, 0 );
 	TitleLabel->Wrap( -1 );
-	bSizer10->Add( TitleLabel, 1, wxALL, 5 );
+	bSizer13->Add( TitleLabel, 1, wxALL, 5 );
 
 	DoneLabel = new wxStaticText( this, wxID_ANY, wxT("Incomplete"), wxDefaultPosition, wxDefaultSize, 0 );
 	DoneLabel->Wrap( -1 );
-	bSizer10->Add( DoneLabel, 1, wxALL, 5 );
+	bSizer13->Add( DoneLabel, 1, wxALL, 5 );
+
+
+	bSizer10->Add( bSizer13, 1, wxEXPAND, 5 );
+
+	IconBitmap = new wxStaticBitmap( this, wxID_ANY, wxNullBitmap, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer10->Add( IconBitmap, 4, wxALL, 5 );
 
 
 	this->SetSizer( bSizer10 );

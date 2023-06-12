@@ -24,7 +24,7 @@ void ImageController::open(wxString file) {
     WebPPictureInit(&pic);
 
     // Allow quality to go higher than 0.
-    config.qmax = 100;
+    //config.qmax = 100;
     //config.method = 6;
     config.lossless = 0;
 
@@ -94,7 +94,7 @@ int ImageController::loadImage(wxString fileName) {
 wxImage ImageController::encodeToImage(int width, int height) {
     wxImage out;
 
-    struct WebpData data = encode(width, height);
+    struct WebpData data = encode(0, 0);
 
     if(data.length == 0)
         return wxImage{};
@@ -102,6 +102,7 @@ wxImage ImageController::encodeToImage(int width, int height) {
     uint8_t* rgb = WebPDecodeRGB(data.data, data.length, &pic.width, &pic.height);
 
     out.Create(pic.width, pic.height, rgb, false);
+    out.Rescale(width, height);
     out.SetMask(false);
 
     return out;

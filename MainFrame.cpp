@@ -33,11 +33,11 @@ void MainFrame::runConversion() {
     int width = WidthControl->GetValue();
     int height = HeightControl->GetValue();
 
-    std::for_each(conversionQueue.queue.begin(), conversionQueue.queue.end(), [quality, width, height](ConversionElement& elem) {
+    for(ConversionElement& elem : conversionQueue.queue) {
         elem.quality = quality;
         elem.width = width;
         elem.height = height;
-    });
+    }
 
     GetStatusBar()->SetStatusText("Conversion in progress...");
     conversionQueue.beginConversion();

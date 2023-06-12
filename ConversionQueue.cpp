@@ -28,7 +28,10 @@ void ConversionQueue::beginConversion() {
 
 void ConversionQueue::addToQueue(ConversionElement element) {
     queue.push_back(element);
-    ItemPanel* panel = new ItemPanel(this, element.controller->imageName);
+    auto* panel = new ItemPanel(
+            this,
+            element.controller->imageName
+    );
     mainSizer.Add(panel, 1, wxALL, 5);
 
     Redraw();

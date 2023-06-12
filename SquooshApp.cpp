@@ -7,7 +7,9 @@
 #include "MainFrame.h"
 
 bool SquooshApp::OnInit() {
-    MainFrame* frame = new MainFrame();
+    wxInitAllImageHandlers();
+
+    auto* frame = new MainFrame();
     frame->Show();
 
     return true;
