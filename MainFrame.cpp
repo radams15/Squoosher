@@ -8,7 +8,8 @@
 
 MainFrame::MainFrame() :
     MainFrameBase(NULL, wxID_ANY, "Squoosher"),
-    controller() {
+    controller(),
+    conversionQueue(this) {
 
     SetDropTarget(new FileDropTarget(this));
 }
@@ -22,7 +23,15 @@ void MainFrame::runConversion() {
     int width = WidthControl->GetValue();
     int height = HeightControl->GetValue();
 
-    controller.setQuality(quality);
+    std::for_each(conversionQueue.queue.begin(), conversionQueue.queue.end(), [quality, width, height](ConversionElement& elem) {
+        elem.quality = quality;
+        elem.width = width;
+        elem.height = height;
+    });
+
+    conversionQueue.beginConversion();
+
+    /*controller.setQuality(quality);
 
     wxImage img = controller.encodeToImage();
     if(width > 0 and height > 0) {
@@ -32,7 +41,7 @@ void MainFrame::runConversion() {
 
     ImageScroller->SetScrollbars(img.GetWidth()/SCROLL_UNITS, img.GetHeight()/SCROLL_UNITS, SCROLL_UNITS, SCROLL_UNITS, 0, 0);
 
-    DisplayImg->SetBitmap(img);
+    DisplayImg->SetBitmap(img);*/
 }
 
 void MainFrame::OnImageOpen(wxCommandEvent &event) {
@@ -69,6 +78,12 @@ void MainFrame::OnImageSave(wxCommandEvent &event) {
 }
 
 void MainFrame::loadImagePath(wxString path) {
-    controller.open(path);
-    runConversion();
+    conversionQueue.addToQueue({
+        .controller = new ImageController(path),
+        .quality = 75,
+        .width = 0,
+        .height = 0
+    });
+
+    //runConversion();
 }

@@ -18,9 +18,9 @@
 #include <wx/font.h>
 #include <wx/colour.h>
 #include <wx/settings.h>
-#include <wx/statbmp.h>
 #include <wx/sizer.h>
 #include <wx/scrolwin.h>
+#include <wx/statbmp.h>
 #include <wx/panel.h>
 #include <wx/stattext.h>
 #include <wx/spinctrl.h>
@@ -40,6 +40,7 @@ class MainFrameBase : public wxFrame
 	protected:
 		wxMenuBar* m_menubar1;
 		wxMenu* m_menu1;
+		wxScrolledWindow* m_scrolledWindow2;
 		wxPanel* m_panel1;
 		wxScrolledWindow* ImageScroller;
 		wxStaticBitmap* DisplayImg;
@@ -59,9 +60,28 @@ class MainFrameBase : public wxFrame
 
 	public:
 
-		MainFrameBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,300 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		MainFrameBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 734,468 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 
 		~MainFrameBase();
+
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class ItemPanelBase
+///////////////////////////////////////////////////////////////////////////////
+class ItemPanelBase : public wxPanel
+{
+	private:
+
+	protected:
+		wxStaticText* TitleLabel;
+		wxStaticText* DoneLabel;
+
+	public:
+
+		ItemPanelBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,300 ), long style = wxTAB_TRAVERSAL, const wxString& name = wxEmptyString );
+
+		~ItemPanelBase();
 
 };
 

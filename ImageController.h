@@ -16,10 +16,13 @@ struct WebpData {
 
 class ImageController {
 public:
-    explicit ImageController();
+    ImageController();
+    explicit ImageController(wxString file);
     ~ImageController();
 
     void open(wxString file);
+
+    wxString imageName;
 
     wxImage encodeToImage(int width=-1, int height=-1);
     void encodeToFile(wxString fileName, int width=-1, int height=-1);

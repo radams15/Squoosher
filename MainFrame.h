@@ -10,6 +10,7 @@
 #include "Squoosh.h"
 #include "ImageController.h"
 #include "FileDropTarget.h"
+#include "ConversionQueue.h"
 
 class MainFrame : public MainFrameBase {
 public:
@@ -23,6 +24,7 @@ protected:
     void OnImageSave( wxCommandEvent& event );
 private:
     ImageController controller;
+    ConversionQueue conversionQueue;
     void runConversion();
 };
 

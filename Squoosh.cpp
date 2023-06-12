@@ -38,6 +38,17 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	wxBoxSizer* bSizer6;
 	bSizer6 = new wxBoxSizer( wxHORIZONTAL );
 
+	m_scrolledWindow2 = new wxScrolledWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL );
+	m_scrolledWindow2->SetScrollRate( 5, 5 );
+	wxBoxSizer* ConvertingImagesSizer;
+	ConvertingImagesSizer = new wxBoxSizer( wxVERTICAL );
+
+
+	m_scrolledWindow2->SetSizer( ConvertingImagesSizer );
+	m_scrolledWindow2->Layout();
+	ConvertingImagesSizer->Fit( m_scrolledWindow2 );
+	bSizer6->Add( m_scrolledWindow2, 1, wxEXPAND | wxALL, 5 );
+
 	m_panel1 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer2;
 	bSizer2 = new wxBoxSizer( wxVERTICAL );
@@ -60,7 +71,7 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_panel1->SetSizer( bSizer2 );
 	m_panel1->Layout();
 	bSizer2->Fit( m_panel1 );
-	bSizer6->Add( m_panel1, 4, wxEXPAND | wxALL, 5 );
+	bSizer6->Add( m_panel1, 3, wxEXPAND | wxALL, 5 );
 
 	m_panel2 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer3;
@@ -130,4 +141,26 @@ MainFrameBase::~MainFrameBase()
 	// Disconnect Events
 	ConvertBtn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnConvertImg ), NULL, this );
 
+}
+
+ItemPanelBase::ItemPanelBase( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name ) : wxPanel( parent, id, pos, size, style, name )
+{
+	wxBoxSizer* bSizer10;
+	bSizer10 = new wxBoxSizer( wxVERTICAL );
+
+	TitleLabel = new wxStaticText( this, wxID_ANY, wxT("File Name"), wxDefaultPosition, wxDefaultSize, 0 );
+	TitleLabel->Wrap( -1 );
+	bSizer10->Add( TitleLabel, 0, wxALL, 5 );
+
+	DoneLabel = new wxStaticText( this, wxID_ANY, wxT("Incomplete"), wxDefaultPosition, wxDefaultSize, 0 );
+	DoneLabel->Wrap( -1 );
+	bSizer10->Add( DoneLabel, 0, wxALL, 5 );
+
+
+	this->SetSizer( bSizer10 );
+	this->Layout();
+}
+
+ItemPanelBase::~ItemPanelBase()
+{
 }

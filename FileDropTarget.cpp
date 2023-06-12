@@ -10,8 +10,9 @@ FileDropTarget::FileDropTarget(wxFrame* window) : wxFileDropTarget(), window(win
 }
 
 bool FileDropTarget::OnDropFiles(wxCoord x, wxCoord y, const wxArrayString &filenames) {
-    if(filenames.size() > 0)
-        ((MainFrame*)window)->loadImagePath(filenames.Item(0));
+    for(const wxString& file : filenames) {
+        ((MainFrame*)window)->loadImagePath(file);
+    }
 
     return true;
 }

@@ -13,7 +13,13 @@ ImageController::ImageController() {
 
 }
 
+ImageController::ImageController(wxString file) {
+    open(file);
+}
+
 void ImageController::open(wxString file) {
+    std::cout << this << std::endl;
+
     WebPConfigInit(&config);
     WebPPictureInit(&pic);
 
@@ -24,6 +30,8 @@ void ImageController::open(wxString file) {
 
     if(loadImage(file) != 0)
         std::cerr << "Failed to load image!\n";
+
+    imageName = file;
 }
 
 int WebPPictureRescaleKeepAR(WebPPicture* pic, int width, int height) {
@@ -107,11 +115,15 @@ wxImage ImageController::encodeToImage(int width, int height) {
 void ImageController::encodeToFile(wxString fileName, int width, int height) {
     struct WebpData data = encode(width, height);
 
-    std::ofstream of(fileName.ToStdString());
+    //std::ofstream of((const char*) fileName.c_str());
 
-    of.write((const char*) data.data, data.length);
+    FILE* f = fopen("out2.webp", "w");
+    fwrite(data.data, sizeof(char), data.length, f);
+    fclose(f);
 
-    of.close();
+    //of.write((const char*) data.data, data.length);
+
+    //of.close();
 }
 
 ImageController::~ImageController() {
