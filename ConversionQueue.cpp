@@ -17,7 +17,6 @@ ConversionQueue::ConversionQueue(wxWindow *parent) :
 
 void ConversionQueue::beginConversion() {
     thread->Run();
-    thread->Kill();
 }
 
 
@@ -39,7 +38,7 @@ wxThread::ExitCode ConversionThread::Entry() {
             wxString newName = elem.controller->imageName + ".webp";
             elem.controller->setQuality(elem.quality);
 
-            //std::printf("Converting '%s' to '%s'\n", (const char*) elem.controller->imageName.c_str(), (const char*) newName.c_str());
+            std::printf("Converting '%s' to '%s'\n", (const char*) elem.controller->imageName.c_str(), (const char*) newName.c_str());
 
             elem.controller->encodeToFile(newName, elem.width, elem.height);
         }
@@ -48,6 +47,8 @@ wxThread::ExitCode ConversionThread::Entry() {
     }
 
 done:
+
+    std::printf("Conversion complete!\n");
 
     return (ExitCode) malloc(1);
 }

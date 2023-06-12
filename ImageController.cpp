@@ -9,6 +9,8 @@
 #include <fstream>
 #include "image_dec.h"
 
+#define min(a, b) a<b? a : b
+
 ImageController::ImageController() {
 
 }
@@ -18,14 +20,12 @@ ImageController::ImageController(wxString file) {
 }
 
 void ImageController::open(wxString file) {
-    std::cout << this << std::endl;
-
     WebPConfigInit(&config);
     WebPPictureInit(&pic);
 
     // Allow quality to go higher than 0.
     config.qmax = 100;
-    config.method = 6;
+    //config.method = 6;
     config.lossless = 0;
 
     if(loadImage(file) != 0)
@@ -35,15 +35,12 @@ void ImageController::open(wxString file) {
 }
 
 int WebPPictureRescaleKeepAR(WebPPicture* pic, int width, int height) {
-    int ratio = std::min(pic->width/width, pic->height/height);
+    float ratio = min((float)pic->width/(float)width, (float)pic->height/(float)height);
 
-    return WebPPictureRescale(pic, pic->width/ratio, pic->height/ratio);
+    printf("Ratio is %f\n", ratio);
+
+    return WebPPictureRescale(pic, (int) ((float)pic->width/ratio), (int) ((float)pic->height/ratio));
 }
-
-/*int WebPPictureDup(WebPPicture* src, WebPPicture* dst) {
-    uint8_t* rgb = WebPDecodeRGB(data.data, data.length, &pic.width, &pic.height);
-    WebPEncodeRGB()
-}*/
 
 struct WebpData ImageController::encode(int width, int height) {
     WebPMemoryWriter wrt;
@@ -99,8 +96,6 @@ wxImage ImageController::encodeToImage(int width, int height) {
 
     struct WebpData data = encode(width, height);
 
-    std::printf("Image %d bytes\n", data.length);
-
     if(data.length == 0)
         return wxImage{};
 
@@ -115,15 +110,11 @@ wxImage ImageController::encodeToImage(int width, int height) {
 void ImageController::encodeToFile(wxString fileName, int width, int height) {
     struct WebpData data = encode(width, height);
 
-    //std::ofstream of((const char*) fileName.c_str());
+    std::ofstream of((const char*) fileName.c_str());
 
-    FILE* f = fopen("out2.webp", "w");
-    fwrite(data.data, sizeof(char), data.length, f);
-    fclose(f);
+    of.write((const char*) data.data, data.length);
 
-    //of.write((const char*) data.data, data.length);
-
-    //of.close();
+    of.close();
 }
 
 ImageController::~ImageController() {
