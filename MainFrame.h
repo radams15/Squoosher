@@ -15,22 +15,23 @@
 class MainFrame : public MainFrameBase {
 public:
     MainFrame();
-    ~MainFrame();
+    ~MainFrame() override;
 
     void loadImagePath(wxString path);
 
 protected:
-    void OnConvertImg( wxCommandEvent& event );
-    void OnImageOpen( wxCommandEvent& event );
+    void OnConvertImg( wxCommandEvent& event ) override;
+    void OnImageOpen( wxCommandEvent& event ) override;
 private:
     ImageController controller;
     ConversionQueue conversionQueue;
-    int totalConverted;
+    int totalConverted = 0;
 
     void runConversion();
 
     void OnConversionComplete(wxCommandEvent& event);
     void OnItemConversionComplete(wxCommandEvent& event);
+    void OnImageDropped( wxCommandEvent& event );
 
 wxDECLARE_EVENT_TABLE();
 };

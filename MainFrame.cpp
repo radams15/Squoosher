@@ -4,22 +4,20 @@
 
 #include "MainFrame.h"
 
-#define SCROLL_UNITS 10
-
 wxBEGIN_EVENT_TABLE(MainFrame, wxFrame)
     EVT_COMMAND(wxID_ANY, CONVERSION_COMPLETE, MainFrame::OnConversionComplete)
     EVT_COMMAND(wxID_ANY, ITEM_CONVERSION_COMPLETE, MainFrame::OnItemConversionComplete)
+    EVT_COMMAND(wxID_ANY, FILES_DROPPED, MainFrame::OnImageDropped)
 wxEND_EVENT_TABLE()
 
 MainFrame::MainFrame() :
-    MainFrameBase(NULL, wxID_ANY, "Squoosher"),
+    MainFrameBase(NULL, wxID_ANY, _T("Squoosher")),
     controller(),
-    conversionQueue(ConvertingImagesScroller),
-    totalConverted(0) {
+    conversionQueue(ConvertingImagesScroller) {
 
     ConvertingImagesSizer->Add(&conversionQueue, 1, wxALL, 5);
 
-    SetDropTarget(new FileDropTarget(this));
+    SetDropTarget(new FileDropTarget());
     CreateStatusBar();
 }
 
@@ -41,7 +39,7 @@ void MainFrame::runConversion() {
         elem.lossless = lossless;
     }
 
-    GetStatusBar()->SetStatusText("Conversion in progress...");
+    GetStatusBar()->SetStatusText(_T("Conversion in progress..."));
     conversionQueue.beginConversion();
 }
 
@@ -51,7 +49,7 @@ void MainFrame::OnImageOpen(wxCommandEvent &event) {
             _T("Open File"),
             wxEmptyString,
             wxEmptyString,
-            _T("image files (*.jpg;*.JPG;*.jpeg;*.png;*.tiff)"),
+            _T("Image files (*.jpg;*.JPG;*.jpeg;*.png;*.tiff)"),
             wxFD_OPEN|wxFD_FILE_MUST_EXIST
     );
 
@@ -66,14 +64,18 @@ void MainFrame::loadImagePath(wxString path) {
         .quality = 75,
         .width = 0,
         .height = 0,
-        .lossless = 0
+        .lossless = false,
     });
+}
+
+void MainFrame::OnImageDropped(wxCommandEvent &event) {
+    loadImagePath(event.GetString());
 }
 
 void MainFrame::OnConversionComplete(wxCommandEvent &event) {
     conversionQueue.Reset();
     ConvertBtn->Enable();
-    GetStatusBar()->SetStatusText(wxString::Format("Converted %d items", totalConverted));
+    GetStatusBar()->SetStatusText(wxString::Format(_T("Converted %d items"), totalConverted));
 }
 
 void MainFrame::OnItemConversionComplete(wxCommandEvent &event) {

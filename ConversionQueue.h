@@ -10,32 +10,13 @@
 #include <wx/wx.h>
 
 #include "ImageController.h"
-
-struct ConversionElement {
-    ImageController* controller;
-    int quality, width, height;
-    bool lossless;
-};
-
-class ConversionQueue;
-
-wxDECLARE_EVENT(CONVERSION_COMPLETE, wxCommandEvent);
-wxDECLARE_EVENT(ITEM_CONVERSION_COMPLETE, wxCommandEvent);
-
-class ConversionThread : public wxThread {
-public:
-    explicit ConversionThread(ConversionQueue* parentQueue);
-    ~ConversionThread();
-protected:
-    ExitCode Entry() override;
-private:
-    ConversionQueue* queue;
-};
+#include "ConversionThread.h"
 
 class ConversionQueue : public wxPanel {
 friend ConversionThread;
 public:
     explicit ConversionQueue(wxWindow* parent);
+    ~ConversionQueue();
     void Reset();
 
     void beginConversion();

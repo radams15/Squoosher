@@ -8,13 +8,14 @@
 #include <wx/wx.h>
 #include <wx/dnd.h>
 
+wxDECLARE_EVENT(FILES_DROPPED, wxCommandEvent);
+
 class FileDropTarget : public wxFileDropTarget {
 public:
-    FileDropTarget(wxFrame* window);
+    explicit FileDropTarget();
 
-    bool OnDropFiles(wxCoord x, wxCoord y, const wxArrayString& filenames) ;
+    bool OnDropFiles(wxCoord x, wxCoord y, const wxArrayString& filenames) override;
 private:
-    wxFrame* window;
 };
 
 

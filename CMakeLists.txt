@@ -12,7 +12,7 @@ include( "${wxWidgets_USE_FILE}" )
 
 add_subdirectory(imageio)
 
-add_executable(squoosher SquooshApp.cpp SquooshApp.h Squoosh.cpp Squoosh.h MainFrame.cpp MainFrame.h ImageController.cpp ImageController.h FileDropTarget.cpp FileDropTarget.h ConversionQueue.cpp ConversionQueue.h ItemPanel.cpp ItemPanel.h)
+add_executable(squoosher SquooshApp.cpp SquooshApp.h Squoosh.cpp Squoosh.h MainFrame.cpp MainFrame.h ImageController.cpp ImageController.h FileDropTarget.cpp FileDropTarget.h ConversionQueue.cpp ConversionQueue.h ItemPanel.cpp ItemPanel.h ConversionThread.cpp ConversionThread.h)
 
 target_compile_definitions(squoosher PRIVATE IMAGE_PREVIEWS)
 target_include_directories(squoosher PRIVATE ${WEBP_INCLUDE_DIRS} imageio)
