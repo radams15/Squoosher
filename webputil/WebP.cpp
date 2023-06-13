@@ -2,24 +2,25 @@
 // Created by rhys on 07/06/23.
 //
 
-#include "ImageController.h"
+#include "WebP.h"
 
 #include <imageio_util.h>
 #include <wx/file.h>
 #include <fstream>
+#include <iostream>
 #include "image_dec.h"
 
 #define min(a, b) a<b? a : b
 
-ImageController::ImageController() {
+WebP::WebP() {
 
 }
 
-ImageController::ImageController(wxString file) {
+WebP::WebP(std::string file) {
     open(file);
 }
 
-void ImageController::open(wxString file) {
+void WebP::open(std::string file) {
     WebPConfigInit(&config);
     WebPPictureInit(&pic);
 
@@ -41,7 +42,7 @@ int WebPPictureRescaleKeepAR(WebPPicture* pic, int width, int height) {
     return WebPPictureRescale(pic, (int) ((double)pic->width/ratio), (int) ((double)pic->height/ratio));
 }
 
-struct WebpData ImageController::encode(int width, int height) {
+struct WebpData WebP::encode(int width, int height) {
     WebPMemoryWriter wrt;
     WebPPicture pictureCopy;
 
@@ -74,7 +75,7 @@ struct WebpData ImageController::encode(int width, int height) {
     };
 }
 
-int ImageController::loadImage(wxString fileName) {
+int WebP::loadImage(std::string fileName) {
     const uint8_t* data = NULL;
     size_t data_size = 0;
     WebPImageReader reader;
@@ -90,41 +91,24 @@ int ImageController::loadImage(wxString fileName) {
     return ok != 1;
 }
 
-wxImage ImageController::encodeToImage(int width, int height) {
-    wxImage out;
-
-    struct WebpData data = encode(0, 0);
-
-    if(data.length == 0)
-        return wxImage{};
-
-    uint8_t* rgb = WebPDecodeRGB(data.data, data.length, &pic.width, &pic.height);
-
-    out.Create(pic.width, pic.height, rgb, false);
-    out.Rescale(width, height);
-    out.SetMask(false);
-
-    return out;
-}
-
-void ImageController::encodeToFile(wxString fileName, int width, int height) {
+void WebP::encodeToFile(std::string fileName, int width, int height) {
     struct WebpData data = encode(width, height);
 
-    std::ofstream of((const char*) fileName.c_str());
+    std::ofstream of(fileName);
 
     of.write((const char*) data.data, data.length);
 
     of.close();
 }
 
-ImageController::~ImageController() {
+WebP::~WebP() {
     WebPPictureFree(&pic);
 }
 
-void ImageController::setQuality(int quality) {
+void WebP::setQuality(int quality) {
     config.quality = (float) quality;
 }
 
-void ImageController::setLossless(bool lossless) {
+void WebP::setLossless(bool lossless) {
     config.lossless = lossless;
 }

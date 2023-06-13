@@ -9,7 +9,6 @@
 
 #include <wx/wx.h>
 
-#include "ImageController.h"
 #include "ConversionThread.h"
 
 class ConversionQueue : public wxPanel {

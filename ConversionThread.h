@@ -6,14 +6,13 @@
 #define SQUOOSHER_CONVERSIONTHREAD_H
 
 #include <wx/wx.h>
-#include "ImageController.h"
-
+#include <WebP.h>
 
 wxDECLARE_EVENT(CONVERSION_COMPLETE, wxCommandEvent);
 wxDECLARE_EVENT(ITEM_CONVERSION_COMPLETE, wxCommandEvent);
 
 struct ConversionElement {
-    ImageController* controller;
+    WebP* webp;
     int quality, width, height;
     bool lossless;
 };

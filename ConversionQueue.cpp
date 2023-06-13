@@ -27,7 +27,7 @@ void ConversionQueue::addToQueue(ConversionElement element) {
     queue.push_back(element);
     auto* panel = new ItemPanel(
             this,
-            element.controller->imageName
+            element.webp->imageName
     );
     mainSizer.Add(panel, 1, wxALL, 5);
 

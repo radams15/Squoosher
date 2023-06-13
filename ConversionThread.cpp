@@ -19,11 +19,11 @@ wxThread::ExitCode ConversionThread::Entry() {
     while(! queue->queue.empty()) {
         ConversionElement& elem = queue->dequeue();
 
-        wxString newName = elem.controller->imageName + ".webp";
-        elem.controller->setQuality(elem.quality);
-        elem.controller->setLossless(elem.lossless);
+        wxString newName = elem.webp->imageName + ".webp";
+        elem.webp->setQuality(elem.quality);
+        elem.webp->setLossless(elem.lossless);
 
-        elem.controller->encodeToFile(newName, elem.width, elem.height);
+        elem.webp->encodeToFile(newName.ToStdString(), elem.width, elem.height);
 
         wxCommandEvent evt(ITEM_CONVERSION_COMPLETE, wxID_ANY);
         evt.SetEventObject((wxObject*) &elem);

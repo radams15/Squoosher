@@ -1,22 +1,19 @@
 cmake_minimum_required(VERSION 3.10)
 project(squoosher)
 
-set(CMAKE_CXX_STANDARD 17)
-
-find_package(PkgConfig)
-pkg_check_modules(WEBP libwebp REQUIRED)
+set(CMAKE_CXX_STANDARD 11)
 
 find_package(wxWidgets COMPONENTS core base REQUIRED)
 
 include( "${wxWidgets_USE_FILE}" )
 
-add_subdirectory(imageio)
+add_subdirectory(webputil)
 
-add_executable(squoosher SquooshApp.cpp SquooshApp.h Squoosh.cpp Squoosh.h MainFrame.cpp MainFrame.h ImageController.cpp ImageController.h FileDropTarget.cpp FileDropTarget.h ConversionQueue.cpp ConversionQueue.h ItemPanel.cpp ItemPanel.h ConversionThread.cpp ConversionThread.h)
+add_executable(squoosher SquooshApp.cpp SquooshApp.h Squoosh.cpp Squoosh.h MainFrame.cpp MainFrame.h FileDropTarget.cpp FileDropTarget.h ConversionQueue.cpp ConversionQueue.h ItemPanel.cpp ItemPanel.h ConversionThread.cpp ConversionThread.h)
 
 target_compile_definitions(squoosher PRIVATE IMAGE_PREVIEWS)
-target_include_directories(squoosher PRIVATE ${WEBP_INCLUDE_DIRS} imageio)
-target_link_libraries(squoosher PRIVATE ${wxWidgets_LIBRARIES} ${WEBP_LIBRARIES} imageio)
+target_include_directories(squoosher PRIVATE webputil)
+target_link_libraries(squoosher PRIVATE ${wxWidgets_LIBRARIES} webputil)
 
 install(TARGETS squoosher DESTINATION bin)
 install(FILES res/squoosher.desktop res/squoosher.png DESTINATION share/applications/)

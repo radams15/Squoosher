@@ -8,7 +8,7 @@
 #include <wx/wx.h>
 
 #include "Squoosh.h"
-#include "ImageController.h"
+#include <WebP.h>
 #include "FileDropTarget.h"
 #include "ConversionQueue.h"
 
@@ -23,7 +23,7 @@ protected:
     void OnConvertImg( wxCommandEvent& event ) override;
     void OnImageOpen( wxCommandEvent& event ) override;
 private:
-    ImageController controller;
+    WebP webP;
     ConversionQueue conversionQueue;
     int totalConverted = 0;
 

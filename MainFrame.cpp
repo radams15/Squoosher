@@ -12,7 +12,7 @@ wxEND_EVENT_TABLE()
 
 MainFrame::MainFrame() :
     MainFrameBase(NULL, wxID_ANY, _T("Squoosher")),
-    controller(),
+    webP(),
     conversionQueue(ConvertingImagesScroller) {
 
     ConvertingImagesSizer->Add(&conversionQueue, 1, wxALL, 5);
@@ -59,8 +59,8 @@ void MainFrame::OnImageOpen(wxCommandEvent &event) {
 }
 
 void MainFrame::loadImagePath(wxString path) {
-    conversionQueue.addToQueue({
-        .controller = new ImageController(path),
+    conversionQueue.addToQueue(ConversionElement{
+        .webp = new WebP(path.ToStdString()),
         .quality = 75,
         .width = 0,
         .height = 0,
