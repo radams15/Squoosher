@@ -1,7 +1,11 @@
 #!/bin/bash
 
 BUILDDIR=builddir
+
+if [ ! $LINUXDEPLOY ]
+then
 LINUXDEPLOY=/home/rhys/Downloads/linuxdeploy-x86_64.AppImage
+fi
 
 rm -rf $BUILDDIR
 mkdir -p $BUILDDIR

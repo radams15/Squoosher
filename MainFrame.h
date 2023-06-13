@@ -15,6 +15,7 @@
 class MainFrame : public MainFrameBase {
 public:
     MainFrame();
+    ~MainFrame();
 
     void loadImagePath(wxString path);
 

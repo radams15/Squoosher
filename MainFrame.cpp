@@ -79,3 +79,7 @@ void MainFrame::OnConversionComplete(wxCommandEvent &event) {
 void MainFrame::OnItemConversionComplete(wxCommandEvent &event) {
     totalConverted++;
 }
+
+MainFrame::~MainFrame() {
+    conversionQueue.Reset();
+}
