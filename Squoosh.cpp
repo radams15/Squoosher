@@ -55,11 +55,20 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_staticText1->Wrap( -1 );
 	bSizer4->Add( m_staticText1, 0, wxALL, 5 );
 
-	QualityControl = new wxSpinCtrl( m_panel2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 1, 100, 75 );
-	bSizer4->Add( QualityControl, 0, wxALL, 5 );
+	QualitySlider = new wxSlider( m_panel2, wxID_ANY, 75, 0, 100, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL|wxSL_LABELS );
+	bSizer4->Add( QualitySlider, 1, wxALL, 5 );
 
 
 	bSizer3->Add( bSizer4, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer42;
+	bSizer42 = new wxBoxSizer( wxHORIZONTAL );
+
+	LosslessCheckbox = new wxCheckBox( m_panel2, wxID_ANY, wxT("Lossless"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer42->Add( LosslessCheckbox, 0, wxALL, 5 );
+
+
+	bSizer3->Add( bSizer42, 1, wxEXPAND, 5 );
 
 	wxBoxSizer* bSizer41;
 	bSizer41 = new wxBoxSizer( wxHORIZONTAL );
@@ -103,15 +112,6 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 
 	bSizer3->Add( bSizer41, 1, wxEXPAND, 5 );
 
-	wxBoxSizer* bSizer42;
-	bSizer42 = new wxBoxSizer( wxHORIZONTAL );
-
-	LosslessCheckbox = new wxCheckBox( m_panel2, wxID_ANY, wxT("Lossless"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer42->Add( LosslessCheckbox, 0, wxALL, 5 );
-
-
-	bSizer3->Add( bSizer42, 1, wxEXPAND, 5 );
-
 	ConvertBtn = new wxButton( m_panel2, wxID_ANY, wxT("Convert"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer3->Add( ConvertBtn, 0, wxALL, 5 );
 
@@ -132,12 +132,30 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 
 	// Connect Events
 	m_menu1->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnImageOpen ), this, m_menuItem1->GetId());
+	QualitySlider->Connect( wxEVT_SCROLL_TOP, wxScrollEventHandler( MainFrameBase::OnQualityChanged ), NULL, this );
+	QualitySlider->Connect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( MainFrameBase::OnQualityChanged ), NULL, this );
+	QualitySlider->Connect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( MainFrameBase::OnQualityChanged ), NULL, this );
+	QualitySlider->Connect( wxEVT_SCROLL_LINEDOWN, wxScrollEventHandler( MainFrameBase::OnQualityChanged ), NULL, this );
+	QualitySlider->Connect( wxEVT_SCROLL_PAGEUP, wxScrollEventHandler( MainFrameBase::OnQualityChanged ), NULL, this );
+	QualitySlider->Connect( wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler( MainFrameBase::OnQualityChanged ), NULL, this );
+	QualitySlider->Connect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( MainFrameBase::OnQualityChanged ), NULL, this );
+	QualitySlider->Connect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( MainFrameBase::OnQualityChanged ), NULL, this );
+	QualitySlider->Connect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( MainFrameBase::OnQualityChanged ), NULL, this );
 	ConvertBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnConvertImg ), NULL, this );
 }
 
 MainFrameBase::~MainFrameBase()
 {
 	// Disconnect Events
+	QualitySlider->Disconnect( wxEVT_SCROLL_TOP, wxScrollEventHandler( MainFrameBase::OnQualityChanged ), NULL, this );
+	QualitySlider->Disconnect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( MainFrameBase::OnQualityChanged ), NULL, this );
+	QualitySlider->Disconnect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( MainFrameBase::OnQualityChanged ), NULL, this );
+	QualitySlider->Disconnect( wxEVT_SCROLL_LINEDOWN, wxScrollEventHandler( MainFrameBase::OnQualityChanged ), NULL, this );
+	QualitySlider->Disconnect( wxEVT_SCROLL_PAGEUP, wxScrollEventHandler( MainFrameBase::OnQualityChanged ), NULL, this );
+	QualitySlider->Disconnect( wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler( MainFrameBase::OnQualityChanged ), NULL, this );
+	QualitySlider->Disconnect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( MainFrameBase::OnQualityChanged ), NULL, this );
+	QualitySlider->Disconnect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( MainFrameBase::OnQualityChanged ), NULL, this );
+	QualitySlider->Disconnect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( MainFrameBase::OnQualityChanged ), NULL, this );
 	ConvertBtn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnConvertImg ), NULL, this );
 
 }

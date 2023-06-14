@@ -27,9 +27,10 @@ void MainFrame::OnConvertImg(wxCommandEvent &event) {
 
 void MainFrame::runConversion() {
     ConvertBtn->Disable();
-    int quality = QualityControl->GetValue();
+    int quality = QualitySlider->GetValue();
     int width = WidthControl->GetValue();
     int height = HeightControl->GetValue();
+
     bool lossless = LosslessCheckbox->GetValue();
 
     for(ConversionElement& elem : conversionQueue.queue) {
@@ -84,4 +85,11 @@ void MainFrame::OnItemConversionComplete(wxCommandEvent &event) {
 
 MainFrame::~MainFrame() {
     conversionQueue.Reset();
+}
+
+void MainFrame::OnQualityChanged(wxScrollEvent &event) {
+    if(QualitySlider->GetValue() == 100)
+        LosslessCheckbox->SetValue(true);
+    else
+        LosslessCheckbox->SetValue(false);
 }

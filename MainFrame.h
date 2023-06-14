@@ -22,6 +22,7 @@ public:
 protected:
     void OnConvertImg( wxCommandEvent& event ) override;
     void OnImageOpen( wxCommandEvent& event ) override;
+    void OnQualityChanged( wxScrollEvent& event ) override;
 private:
     WebP webP;
     ConversionQueue conversionQueue;

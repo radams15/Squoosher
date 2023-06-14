@@ -21,8 +21,9 @@
 #include <wx/sizer.h>
 #include <wx/scrolwin.h>
 #include <wx/stattext.h>
-#include <wx/spinctrl.h>
+#include <wx/slider.h>
 #include <wx/checkbox.h>
+#include <wx/spinctrl.h>
 #include <wx/button.h>
 #include <wx/panel.h>
 #include <wx/frame.h>
@@ -45,17 +46,18 @@ class MainFrameBase : public wxFrame
 		wxBoxSizer* ConvertingImagesSizer;
 		wxPanel* m_panel2;
 		wxStaticText* m_staticText1;
-		wxSpinCtrl* QualityControl;
+		wxSlider* QualitySlider;
+		wxCheckBox* LosslessCheckbox;
 		wxStaticText* m_staticText11;
 		wxStaticText* m_staticText5;
 		wxSpinCtrl* WidthControl;
 		wxStaticText* m_staticText6;
 		wxSpinCtrl* HeightControl;
-		wxCheckBox* LosslessCheckbox;
 		wxButton* ConvertBtn;
 
 		// Virtual event handlers, override them in your derived class
 		virtual void OnImageOpen( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnQualityChanged( wxScrollEvent& event ) { event.Skip(); }
 		virtual void OnConvertImg( wxCommandEvent& event ) { event.Skip(); }
 
 
