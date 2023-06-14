@@ -175,9 +175,9 @@ ItemPanelBase::ItemPanelBase( wxWindow* parent, wxWindowID id, const wxPoint& po
 	TitleLabel->Wrap( -1 );
 	bSizer13->Add( TitleLabel, 1, wxALL|wxEXPAND, 5 );
 
-	DoneLabel = new wxStaticText( this, wxID_ANY, wxT("Incomplete"), wxDefaultPosition, wxDefaultSize, 0 );
-	DoneLabel->Wrap( -1 );
-	bSizer13->Add( DoneLabel, 1, wxALL|wxEXPAND, 5 );
+	ProgressBar = new wxGauge( this, wxID_ANY, 100, wxDefaultPosition, wxDefaultSize, wxGA_HORIZONTAL );
+	ProgressBar->SetValue( 0 );
+	bSizer13->Add( ProgressBar, 1, wxALL|wxEXPAND, 5 );
 
 
 	bSizer10->Add( bSizer13, 1, wxEXPAND, 3 );

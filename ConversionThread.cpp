@@ -16,7 +16,7 @@ ConversionThread::ConversionThread(ConversionQueue *parentQueue) :
 }
 
 wxThread::ExitCode ConversionThread::Entry() {
-    while(! queue->queue.empty()) {
+    while(! queue->empty()) {
         ConversionElement& elem = queue->dequeue();
 
         wxString newName = elem.webp->imageName + ".webp";

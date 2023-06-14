@@ -7,9 +7,9 @@
 #define ICON_SIZE 64
 
 ItemPanel::ItemPanel(wxWindow *parent, wxString name) :
-        ItemPanelBase(parent, wxID_ANY) {
+        ItemPanelBase(parent) {
     TitleLabel->SetLabel(name);
-    DoneLabel->SetLabel("Queued");
+    ProgressBar->SetValue(0);
 
 #ifdef IMAGE_PREVIEWS
     wxImage img(name);
@@ -18,4 +18,11 @@ ItemPanel::ItemPanel(wxWindow *parent, wxString name) :
 #endif
 
     IconBitmap->Show(true);
+}
+
+void ItemPanel::setComplete(bool complete) {
+    if(complete)
+        ProgressBar->SetValue(100);
+    else
+        ProgressBar->SetValue(0);
 }

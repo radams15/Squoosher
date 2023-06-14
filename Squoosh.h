@@ -28,9 +28,11 @@
 #include <wx/panel.h>
 #include <wx/frame.h>
 #include <wx/statbmp.h>
+#include <wx/gauge.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
+#define ID_ITEM_PANEL 1000
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class MainFrameBase
@@ -79,11 +81,11 @@ class ItemPanelBase : public wxPanel
 	protected:
 		wxStaticBitmap* IconBitmap;
 		wxStaticText* TitleLabel;
-		wxStaticText* DoneLabel;
+		wxGauge* ProgressBar;
 
 	public:
 
-		ItemPanelBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 765,136 ), long style = wxTAB_TRAVERSAL, const wxString& name = wxEmptyString );
+		ItemPanelBase( wxWindow* parent, wxWindowID id = ID_ITEM_PANEL, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 765,136 ), long style = wxTAB_TRAVERSAL, const wxString& name = wxEmptyString );
 
 		~ItemPanelBase();
 

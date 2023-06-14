@@ -11,6 +11,7 @@
 class ItemPanel : public ItemPanelBase {
 public:
     ItemPanel(wxWindow* parent, wxString name);
+    void setComplete(bool complete);
 private:
 
 };

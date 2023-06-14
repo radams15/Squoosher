@@ -20,11 +20,13 @@ public:
 
     void beginConversion();
     void addToQueue(ConversionElement element);
+    bool empty();
 
     ConversionElement& dequeue();
 
     std::vector<ConversionElement> queue;
 private:
+    int topElement = 0;
     ConversionThread* thread;
     wxBoxSizer mainSizer;
 };

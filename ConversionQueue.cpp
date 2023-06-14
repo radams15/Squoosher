@@ -38,9 +38,16 @@ ConversionElement& ConversionQueue::dequeue() {
     ConversionElement& elem = queue.back();
     queue.pop_back();
 
-    mainSizer.GetChildren().back()->Show(false);
-    mainSizer.GetChildren().pop_back();
+    wxSizerItem* item = mainSizer.GetChildren()[topElement];
+    ItemPanel* panel = (ItemPanel*) item->GetWindow();
+    if(panel->GetId() != ID_ITEM_PANEL) {
+        std::cerr << "Cannot identify item panel!\n";
+        return elem;
+    }
+    panel->setComplete(true);
     Redraw();
+
+    topElement++;
 
     return elem;
 }
@@ -52,10 +59,16 @@ void ConversionQueue::Reset() {
 
     thread = new ConversionThread(this);
     queue.clear();
+
+    //topElement = 0;
 }
 
 ConversionQueue::~ConversionQueue() {
     if(thread->IsRunning())
         thread->Kill();
     delete thread;
+}
+
+bool ConversionQueue::empty() {
+    return topElement == mainSizer.GetChildren().size();
 }
