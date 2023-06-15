@@ -17,7 +17,7 @@ public:
     MainFrame();
     ~MainFrame() override;
 
-    void loadImagePath(wxString path);
+    void loadImagePath(const wxString& path);
 
 protected:
     void OnConvertImg( wxCommandEvent& event ) override;

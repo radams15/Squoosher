@@ -6,7 +6,7 @@
 #include "ItemPanel.h"
 #include "MainFrame.h"
 
-#define Redraw() wxPostEvent(wxTheApp->GetTopWindow(), wxSizeEvent());
+#define Redraw() wxPostEvent(wxTheApp->GetTopWindow(), wxSizeEvent())
 
 ConversionQueue::ConversionQueue(wxWindow *parent) :
         wxPanel(parent),
@@ -39,7 +39,7 @@ ConversionElement& ConversionQueue::dequeue() {
     queue.pop_back();
 
     wxSizerItem* item = mainSizer.GetChildren()[topElement];
-    ItemPanel* panel = (ItemPanel*) item->GetWindow();
+    auto* panel = (ItemPanel*) item->GetWindow();
     if(panel->GetId() != ID_ITEM_PANEL) {
         std::cerr << "Cannot identify item panel!\n";
         return elem;
@@ -59,8 +59,6 @@ void ConversionQueue::Reset() {
 
     thread = new ConversionThread(this);
     queue.clear();
-
-    //topElement = 0;
 }
 
 ConversionQueue::~ConversionQueue() {

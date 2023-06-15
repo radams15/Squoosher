@@ -10,7 +10,7 @@
         <property name="disconnect_python_events">0</property>
         <property name="embedded_files_path">res</property>
         <property name="encoding">UTF-8</property>
-        <property name="event_generation">connect</property>
+        <property name="event_generation">table</property>
         <property name="file">Squoosh</property>
         <property name="first_id">1000</property>
         <property name="help_provider">none</property>
@@ -83,7 +83,7 @@
                     <property name="name">m_menu1</property>
                     <property name="permission">protected</property>
                     <object class="wxMenuItem" expanded="1">
-                        <property name="bitmap">Load From File; </property>
+                        <property name="bitmap">Load From Embedded File; res/squoosher.png</property>
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
                         <property name="help"></property>

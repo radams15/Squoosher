@@ -6,7 +6,7 @@
 
 #define ICON_SIZE 64
 
-ItemPanel::ItemPanel(wxWindow *parent, wxString name) :
+ItemPanel::ItemPanel(wxWindow *parent, const wxString& name) :
         ItemPanelBase(parent) {
     TitleLabel->SetLabel(name);
     ProgressBar->SetValue(0);

@@ -7,7 +7,15 @@
 
 #include "Squoosh.h"
 
+#include "res/squoosher.png.h"
+
 ///////////////////////////////////////////////////////////////////////////
+
+BEGIN_EVENT_TABLE( MainFrameBase, wxFrame )
+	EVT_MENU( wxID_ANY, MainFrameBase::_wxFB_OnImageOpen )
+	EVT_SCROLL( MainFrameBase::_wxFB_OnQualityChanged )
+	EVT_BUTTON( wxID_ANY, MainFrameBase::_wxFB_OnConvertImg )
+END_EVENT_TABLE()
 
 MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
 {
@@ -18,9 +26,9 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	wxMenuItem* m_menuItem1;
 	m_menuItem1 = new wxMenuItem( m_menu1, wxID_ANY, wxString( wxT("Open") ) + wxT('\t') + wxT("ctrl-o"), wxEmptyString, wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	m_menuItem1->SetBitmaps( wxNullBitmap );
+	m_menuItem1->SetBitmaps( squoosher_png_to_wx_bitmap() );
 	#elif (defined( __WXGTK__ ) || defined( __WXOSX__ ))
-	m_menuItem1->SetBitmap( wxNullBitmap );
+	m_menuItem1->SetBitmap( squoosher_png_to_wx_bitmap() );
 	#endif
 	m_menu1->Append( m_menuItem1 );
 
@@ -129,35 +137,10 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	this->Layout();
 
 	this->Centre( wxBOTH );
-
-	// Connect Events
-	m_menu1->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnImageOpen ), this, m_menuItem1->GetId());
-	QualitySlider->Connect( wxEVT_SCROLL_TOP, wxScrollEventHandler( MainFrameBase::OnQualityChanged ), NULL, this );
-	QualitySlider->Connect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( MainFrameBase::OnQualityChanged ), NULL, this );
-	QualitySlider->Connect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( MainFrameBase::OnQualityChanged ), NULL, this );
-	QualitySlider->Connect( wxEVT_SCROLL_LINEDOWN, wxScrollEventHandler( MainFrameBase::OnQualityChanged ), NULL, this );
-	QualitySlider->Connect( wxEVT_SCROLL_PAGEUP, wxScrollEventHandler( MainFrameBase::OnQualityChanged ), NULL, this );
-	QualitySlider->Connect( wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler( MainFrameBase::OnQualityChanged ), NULL, this );
-	QualitySlider->Connect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( MainFrameBase::OnQualityChanged ), NULL, this );
-	QualitySlider->Connect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( MainFrameBase::OnQualityChanged ), NULL, this );
-	QualitySlider->Connect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( MainFrameBase::OnQualityChanged ), NULL, this );
-	ConvertBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnConvertImg ), NULL, this );
 }
 
 MainFrameBase::~MainFrameBase()
 {
-	// Disconnect Events
-	QualitySlider->Disconnect( wxEVT_SCROLL_TOP, wxScrollEventHandler( MainFrameBase::OnQualityChanged ), NULL, this );
-	QualitySlider->Disconnect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( MainFrameBase::OnQualityChanged ), NULL, this );
-	QualitySlider->Disconnect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( MainFrameBase::OnQualityChanged ), NULL, this );
-	QualitySlider->Disconnect( wxEVT_SCROLL_LINEDOWN, wxScrollEventHandler( MainFrameBase::OnQualityChanged ), NULL, this );
-	QualitySlider->Disconnect( wxEVT_SCROLL_PAGEUP, wxScrollEventHandler( MainFrameBase::OnQualityChanged ), NULL, this );
-	QualitySlider->Disconnect( wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler( MainFrameBase::OnQualityChanged ), NULL, this );
-	QualitySlider->Disconnect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( MainFrameBase::OnQualityChanged ), NULL, this );
-	QualitySlider->Disconnect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( MainFrameBase::OnQualityChanged ), NULL, this );
-	QualitySlider->Disconnect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( MainFrameBase::OnQualityChanged ), NULL, this );
-	ConvertBtn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnConvertImg ), NULL, this );
-
 }
 
 ItemPanelBase::ItemPanelBase( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name ) : wxPanel( parent, id, pos, size, style, name )

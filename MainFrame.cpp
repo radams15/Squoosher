@@ -4,21 +4,21 @@
 
 #include "MainFrame.h"
 
-wxBEGIN_EVENT_TABLE(MainFrame, wxFrame)
+wxBEGIN_EVENT_TABLE(MainFrame, MainFrameBase)
     EVT_COMMAND(wxID_ANY, CONVERSION_COMPLETE, MainFrame::OnConversionComplete)
     EVT_COMMAND(wxID_ANY, ITEM_CONVERSION_COMPLETE, MainFrame::OnItemConversionComplete)
     EVT_COMMAND(wxID_ANY, FILES_DROPPED, MainFrame::OnImageDropped)
 wxEND_EVENT_TABLE()
 
 MainFrame::MainFrame() :
-    MainFrameBase(NULL, wxID_ANY, _T("Squoosher")),
+    MainFrameBase(nullptr, wxID_ANY, _T("Squoosher")),
     webP(),
     conversionQueue(ConvertingImagesScroller) {
 
     ConvertingImagesSizer->Add(&conversionQueue, 1, wxALL, 5);
 
-    SetDropTarget(new FileDropTarget());
-    CreateStatusBar();
+    wxFrame::SetDropTarget(new FileDropTarget());
+    wxFrame::CreateStatusBar();
 }
 
 void MainFrame::OnConvertImg(wxCommandEvent &event) {
@@ -59,7 +59,7 @@ void MainFrame::OnImageOpen(wxCommandEvent &event) {
     }
 }
 
-void MainFrame::loadImagePath(wxString path) {
+void MainFrame::loadImagePath(const wxString& path) {
     conversionQueue.addToQueue(ConversionElement{
         .webp = new WebP(path.ToStdString()),
         .quality = 75,

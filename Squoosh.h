@@ -39,7 +39,14 @@
 ///////////////////////////////////////////////////////////////////////////////
 class MainFrameBase : public wxFrame
 {
+	DECLARE_EVENT_TABLE()
 	private:
+
+		// Private event handlers
+		void _wxFB_OnImageOpen( wxCommandEvent& event ){ OnImageOpen( event ); }
+		void _wxFB_OnQualityChanged( wxScrollEvent& event ){ OnQualityChanged( event ); }
+		void _wxFB_OnConvertImg( wxCommandEvent& event ){ OnConvertImg( event ); }
+
 
 	protected:
 		wxMenuBar* m_menubar1;

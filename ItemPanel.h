@@ -10,7 +10,7 @@
 
 class ItemPanel : public ItemPanelBase {
 public:
-    ItemPanel(wxWindow* parent, wxString name);
+    ItemPanel(wxWindow* parent, const wxString& name);
     void setComplete(bool complete);
 private:
 
