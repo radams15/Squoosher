@@ -3,6 +3,9 @@
 //
 
 #include "MainFrame.h"
+#include "res/squoosher.png.h"
+
+#include <wx/aboutdlg.h>
 
 wxBEGIN_EVENT_TABLE(MainFrame, MainFrameBase)
     EVT_COMMAND(wxID_ANY, CONVERSION_COMPLETE, MainFrame::OnConversionComplete)
@@ -92,4 +95,20 @@ void MainFrame::OnQualityChanged(wxScrollEvent &event) {
         LosslessCheckbox->SetValue(true);
     else
         LosslessCheckbox->SetValue(false);
+}
+
+void MainFrame::OnAbout(wxCommandEvent &event) {
+    wxAboutDialogInfo aboutInfo;
+    wxIcon icon;
+
+    aboutInfo.SetName(_T("Squoosher"));
+    icon.CopyFromBitmap(squoosher_png_to_wx_bitmap());
+    aboutInfo.SetIcon(icon);
+    aboutInfo.SetVersion(SQUOOSHER_VERSION);
+    aboutInfo.SetDescription(_T("Simple webp conversion program"));
+    aboutInfo.SetCopyright(_T("(C) 2023"));
+    aboutInfo.SetWebSite(_T("https://therhys.co.uk"));
+    aboutInfo.AddDeveloper(_T("Rhys Adams"));
+
+    wxAboutBox(aboutInfo);
 }

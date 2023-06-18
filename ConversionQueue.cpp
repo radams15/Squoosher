@@ -24,7 +24,11 @@ void ConversionQueue::beginConversion() {
 
 
 void ConversionQueue::addToQueue(ConversionElement element) {
+    /*while(locked) {}
+    locked = true;*/
     queue.push_back(element);
+    //locked = false;
+
     auto* panel = new ItemPanel(
             this,
             element.webp->imageName
@@ -35,8 +39,11 @@ void ConversionQueue::addToQueue(ConversionElement element) {
 }
 
 ConversionElement& ConversionQueue::dequeue() {
+    /*while(locked) {}
+    locked = true;*/
     ConversionElement& elem = queue.back();
     queue.pop_back();
+    //locked = false;
 
     wxSizerItem* item = mainSizer.GetChildren()[topElement];
     auto* panel = (ItemPanel*) item->GetWindow();
