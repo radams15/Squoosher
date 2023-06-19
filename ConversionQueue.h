@@ -26,10 +26,10 @@ public:
 
     std::vector<ConversionElement> queue;
 private:
-    bool locked = false;
+    //bool locked = false;
     int topElement = 0;
     ConversionThread* thread;
-    wxBoxSizer mainSizer;
+    wxBoxSizer* mainSizer;
 };
 
 
