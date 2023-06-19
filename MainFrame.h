@@ -14,6 +14,10 @@
 
 class MainFrame : public MainFrameBase {
 public:
+    enum {
+        ID_CONVERT = 2000,
+    };
+
     MainFrame();
     ~MainFrame() override;
 

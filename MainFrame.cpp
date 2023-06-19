@@ -11,12 +11,20 @@ wxBEGIN_EVENT_TABLE(MainFrame, MainFrameBase)
     EVT_COMMAND(wxID_ANY, CONVERSION_COMPLETE, MainFrame::OnConversionComplete)
     EVT_COMMAND(wxID_ANY, ITEM_CONVERSION_COMPLETE, MainFrame::OnItemConversionComplete)
     EVT_COMMAND(wxID_ANY, FILES_DROPPED, MainFrame::OnImageDropped)
+    EVT_TOOL(ID_CONVERT, MainFrame::OnConvertImg)
 wxEND_EVENT_TABLE()
+
+extern wxBitmap& convert_png_to_wx_bitmap();
 
 MainFrame::MainFrame() :
     MainFrameBase(nullptr, wxID_ANY, _T("Squoosher")),
     webP(),
     conversionQueue(ConvertingImagesScroller) {
+
+    auto* toolbar = wxFrame::CreateToolBar(wxTB_TEXT);
+    toolbar->SetToolBitmapSize(wxSize(64, 64));
+    toolbar->AddTool(ID_CONVERT, _T("Convert"), convert_png_to_wx_bitmap());
+    toolbar->Realize();
 
     ConvertingImagesSizer->Add(&conversionQueue, 1, wxALL, 5);
 

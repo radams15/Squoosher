@@ -105,7 +105,7 @@ int ImgIoUtilReadFile(const char* const file_name,
   if (!ok) {
     WFPRINTF(stderr, "Could not read %d bytes of data from file %s\n",
              (int)file_size, (const W_CHAR*)file_name);
-    WebPFree(file_data);
+    free(file_data);
     return 0;
   }
   file_data[file_size] = '\0';  // convenient 0-terminator

@@ -24,10 +24,6 @@ void WebP::open(std::string file) {
     WebPConfigInit(&config);
     WebPPictureInit(&pic);
 
-    // Allow quality to go higher than 0.
-    //config.qmax = 100;
-    //config.method = 6;
-
     if(loadImage(file) != 0)
         std::cerr << "Failed to load image!\n";
 
@@ -87,7 +83,7 @@ int WebP::loadImage(std::string fileName) {
     reader = WebPGuessImageReader(data, data_size);
     ok = reader(data, data_size, &pic, 1, NULL);
 
-    WebPFree((void*)data);
+    //free((void*)data);
     return ok != 1;
 }
 
@@ -102,7 +98,7 @@ void WebP::encodeToFile(std::string fileName, int width, int height) {
 }
 
 WebP::~WebP() {
-    WebPPictureFree(&pic);
+    //WebPPictureFree(&pic);
 }
 
 void WebP::setQuality(int quality) {
