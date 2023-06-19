@@ -19,7 +19,6 @@ public:
     };
 
     MainFrame();
-    ~MainFrame() override;
 
     void loadImagePath(const wxString& path);
 
@@ -30,7 +29,7 @@ protected:
     void OnQualityChanged( wxScrollEvent& event ) override;
 private:
     WebP webP;
-    ConversionQueue conversionQueue;
+    ConversionQueue* conversionQueue;
     int totalConverted = 0;
 
     void runConversion();

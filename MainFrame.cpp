@@ -18,15 +18,14 @@ extern wxBitmap& convert_png_to_wx_bitmap();
 
 MainFrame::MainFrame() :
     MainFrameBase(nullptr, wxID_ANY, _T("Squoosher")),
-    webP(),
-    conversionQueue(ConvertingImagesScroller) {
-
+    webP() {
     auto* toolbar = wxFrame::CreateToolBar(wxTB_TEXT);
     toolbar->SetToolBitmapSize(wxSize(64, 64));
     toolbar->AddTool(ID_CONVERT, _T("Convert"), convert_png_to_wx_bitmap());
     toolbar->Realize();
 
-    ConvertingImagesSizer->Add(&conversionQueue, 1, wxALL, 5);
+    conversionQueue = new ConversionQueue(ConvertingImagesScroller);
+    ConvertingImagesSizer->Add(conversionQueue, 1, wxALL, 5);
 
     wxFrame::SetDropTarget(new FileDropTarget());
     wxFrame::CreateStatusBar();
@@ -44,7 +43,7 @@ void MainFrame::runConversion() {
 
     bool lossless = LosslessCheckbox->GetValue();
 
-    for(ConversionElement& elem : conversionQueue.queue) {
+    for(ConversionElement& elem : conversionQueue->queue) {
         elem.quality = quality;
         elem.width = width;
         elem.height = height;
@@ -52,7 +51,7 @@ void MainFrame::runConversion() {
     }
 
     GetStatusBar()->SetStatusText(_T("Conversion in progress..."));
-    conversionQueue.beginConversion();
+    conversionQueue->beginConversion();
 }
 
 void MainFrame::OnImageOpen(wxCommandEvent &event) {
@@ -71,7 +70,7 @@ void MainFrame::OnImageOpen(wxCommandEvent &event) {
 }
 
 void MainFrame::loadImagePath(const wxString& path) {
-    conversionQueue.addToQueue(ConversionElement{
+    conversionQueue->addToQueue(ConversionElement{
         .webp = new WebP(path.ToStdString()),
         .quality = 75,
         .width = 0,
@@ -85,17 +84,13 @@ void MainFrame::OnImageDropped(wxCommandEvent &event) {
 }
 
 void MainFrame::OnConversionComplete(wxCommandEvent &event) {
-    conversionQueue.Reset();
+    conversionQueue->Reset();
     ConvertBtn->Enable();
     GetStatusBar()->SetStatusText(wxString::Format(_T("Converted %d items"), totalConverted));
 }
 
 void MainFrame::OnItemConversionComplete(wxCommandEvent &event) {
     totalConverted++;
-}
-
-MainFrame::~MainFrame() {
-    conversionQueue.Reset();
 }
 
 void MainFrame::OnQualityChanged(wxScrollEvent &event) {
