@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version 3.10.1-0-g8feb16b)
+// C++ code generated with wxFormBuilder (version 3.10.1-0-g8feb16b3)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO *NOT* EDIT THIS FILE!
@@ -59,7 +59,7 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 
 	m_toolBar2->Realize();
 
-	bSizer1->Add( m_toolBar2, 0, wxEXPAND, 5 );
+	bSizer1->Add( m_toolBar2, 0, 0, 5 );
 
 	wxBoxSizer* MainSizer;
 	MainSizer = new wxBoxSizer( wxHORIZONTAL );
@@ -72,7 +72,7 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	ConvertingImagesScroller->SetSizer( ConvertingImagesSizer );
 	ConvertingImagesScroller->Layout();
 	ConvertingImagesSizer->Fit( ConvertingImagesScroller );
-	MainSizer->Add( ConvertingImagesScroller, 4, wxEXPAND | wxALL, 5 );
+	MainSizer->Add( ConvertingImagesScroller, 4, wxALL|wxEXPAND, 5 );
 
 	m_panel2 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer3;
