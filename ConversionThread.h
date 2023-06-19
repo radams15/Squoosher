@@ -22,7 +22,6 @@ class ConversionQueue;
 class ConversionThread : public wxThread {
 public:
     explicit ConversionThread(ConversionQueue* parentQueue);
-    ~ConversionThread();
 protected:
     ExitCode Entry() override;
 private:

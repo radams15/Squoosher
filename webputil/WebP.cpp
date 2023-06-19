@@ -102,7 +102,8 @@ void WebP::encodeToFile(std::string fileName, int width, int height) {
 }
 
 WebP::~WebP() {
-    WebPPictureFree(&pic);
+    //WebPPictureFree(&pic);
+    //TODO memory leak but above segfaults.
 }
 
 void WebP::setQuality(int quality) {

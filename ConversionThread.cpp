@@ -38,8 +38,3 @@ wxThread::ExitCode ConversionThread::Entry() {
 
     return (ExitCode) EXIT_SUCCESS;
 }
-
-ConversionThread::~ConversionThread() {
-    if(IsRunning())
-        Kill();
-}

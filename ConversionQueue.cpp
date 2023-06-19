@@ -10,15 +10,17 @@
 
 ConversionQueue::ConversionQueue(wxWindow *parent) :
         wxPanel(parent),
-        mainSizer(wxVERTICAL),
-        queue() {
+        queue(),
+        thread(nullptr)
+        {
 
-    SetSizer(&mainSizer);
+    mainSizer = new wxBoxSizer(wxVERTICAL);
 
-    thread = new ConversionThread(this);
+    SetSizer(mainSizer);
 }
 
 void ConversionQueue::beginConversion() {
+    thread = new ConversionThread(this);
     thread->Run();
 }
 
@@ -33,7 +35,7 @@ void ConversionQueue::addToQueue(ConversionElement element) {
             this,
             element.webp->imageName
     );
-    mainSizer.Add(panel, 1, wxALL, 5);
+    mainSizer->Add(panel, 1, wxALL, 5);
 
     Redraw();
 }
@@ -45,7 +47,7 @@ ConversionElement& ConversionQueue::dequeue() {
     queue.pop_back();
     //locked = false;
 
-    wxSizerItem* item = mainSizer.GetChildren()[topElement];
+    wxSizerItem* item = mainSizer->GetChildren()[topElement];
     auto* panel = (ItemPanel*) item->GetWindow();
     if(panel->GetId() != ID_ITEM_PANEL) {
         std::cerr << "Cannot identify item panel!\n";
@@ -60,20 +62,27 @@ ConversionElement& ConversionQueue::dequeue() {
 }
 
 void ConversionQueue::Reset() {
-    if(thread->IsRunning())
-        thread->Kill();
-    delete thread;
+    if(thread != nullptr) {
+        if (thread->IsRunning())
+            thread->Delete();
+        delete thread;
+    }
 
-    thread = new ConversionThread(this);
+    thread = nullptr;
     queue.clear();
 }
 
-ConversionQueue::~ConversionQueue() {
-    if(thread->IsRunning())
-        thread->Kill();
-    delete thread;
+bool ConversionQueue::empty() {
+    return topElement == mainSizer->GetChildren().size();
 }
 
-bool ConversionQueue::empty() {
-    return topElement == mainSizer.GetChildren().size();
+ConversionQueue::~ConversionQueue() {
+    if(thread != nullptr) {
+        if (thread->IsRunning())
+            thread->Delete();
+        delete thread;
+    }
+
+    thread = nullptr;
+    queue.clear();
 }
