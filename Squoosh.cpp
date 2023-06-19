@@ -15,8 +15,8 @@
 BEGIN_EVENT_TABLE( MainFrameBase, wxFrame )
 	EVT_MENU( ID_OPEN, MainFrameBase::_wxFB_OnImageOpen )
 	EVT_MENU( ID_ABOUT, MainFrameBase::_wxFB_OnAbout )
+	EVT_TOOL( ID_CONVERT, MainFrameBase::_wxFB_OnConvertImg )
 	EVT_SCROLL( MainFrameBase::_wxFB_OnQualityChanged )
-	EVT_BUTTON( wxID_ANY, MainFrameBase::_wxFB_OnConvertImg )
 END_EVENT_TABLE()
 
 MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
@@ -52,6 +52,14 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 
 	wxBoxSizer* bSizer1;
 	bSizer1 = new wxBoxSizer( wxVERTICAL );
+
+	m_toolBar2 = wxFrame::CreateToolBar(wxTB_TEXT);
+	m_toolBar2->SetToolBitmapSize( wxSize( 64,64 ) );
+	ConvertTool = m_toolBar2->AddTool( ID_CONVERT, wxT("Convert"), convert_png_to_wx_bitmap(), wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
+
+	m_toolBar2->Realize();
+
+	bSizer1->Add( m_toolBar2, 0, wxEXPAND, 5 );
 
 	wxBoxSizer* MainSizer;
 	MainSizer = new wxBoxSizer( wxHORIZONTAL );
@@ -129,17 +137,6 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 
 
 	bSizer3->Add( bSizer41, 0, wxEXPAND, 5 );
-
-
-	bSizer3->Add( 0, 0, 1, wxEXPAND, 5 );
-
-	ConvertBtn = new wxButton( m_panel2, wxID_ANY, wxT("Convert"), wxDefaultPosition, wxDefaultSize, wxBU_LEFT );
-
-	ConvertBtn->SetDefault();
-
-	ConvertBtn->SetBitmap( convert_png_to_wx_bitmap() );
-	ConvertBtn->SetBitmapPosition( wxLEFT );
-	bSizer3->Add( ConvertBtn, 0, wxALL, 5 );
 
 
 	m_panel2->SetSizer( bSizer3 );

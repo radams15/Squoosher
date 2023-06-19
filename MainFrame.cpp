@@ -11,7 +11,6 @@ wxBEGIN_EVENT_TABLE(MainFrame, MainFrameBase)
     EVT_COMMAND(wxID_ANY, CONVERSION_COMPLETE, MainFrame::OnConversionComplete)
     EVT_COMMAND(wxID_ANY, ITEM_CONVERSION_COMPLETE, MainFrame::OnItemConversionComplete)
     EVT_COMMAND(wxID_ANY, FILES_DROPPED, MainFrame::OnImageDropped)
-    EVT_TOOL(ID_CONVERT, MainFrame::OnConvertImg)
 wxEND_EVENT_TABLE()
 
 extern wxBitmap& convert_png_to_wx_bitmap();
@@ -19,11 +18,6 @@ extern wxBitmap& convert_png_to_wx_bitmap();
 MainFrame::MainFrame() :
     MainFrameBase(nullptr, wxID_ANY, _T("Squoosher")),
     webP() {
-    auto* toolbar = wxFrame::CreateToolBar(wxTB_TEXT);
-    toolbar->SetToolBitmapSize(wxSize(64, 64));
-    toolbar->AddTool(ID_CONVERT, _T("Convert"), convert_png_to_wx_bitmap());
-    toolbar->Realize();
-
     conversionQueue = new ConversionQueue(ConvertingImagesScroller);
     ConvertingImagesSizer->Add(conversionQueue, 1, wxALL, 5);
 
@@ -36,7 +30,7 @@ void MainFrame::OnConvertImg(wxCommandEvent &event) {
 }
 
 void MainFrame::runConversion() {
-    ConvertBtn->Disable();
+    ConvertTool->Enable(false);
     int quality = QualitySlider->GetValue();
     int width = WidthControl->GetValue();
     int height = HeightControl->GetValue();
@@ -85,7 +79,7 @@ void MainFrame::OnImageDropped(wxCommandEvent &event) {
 
 void MainFrame::OnConversionComplete(wxCommandEvent &event) {
     conversionQueue->Reset();
-    ConvertBtn->Enable();
+    ConvertTool->Enable(true);
     GetStatusBar()->SetStatusText(wxString::Format(_T("Converted %d items"), totalConverted));
 }
 

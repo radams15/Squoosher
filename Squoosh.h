@@ -18,13 +18,13 @@
 #include <wx/font.h>
 #include <wx/colour.h>
 #include <wx/settings.h>
+#include <wx/toolbar.h>
 #include <wx/sizer.h>
 #include <wx/scrolwin.h>
 #include <wx/stattext.h>
 #include <wx/slider.h>
 #include <wx/checkbox.h>
 #include <wx/spinctrl.h>
-#include <wx/button.h>
 #include <wx/panel.h>
 #include <wx/frame.h>
 #include <wx/statbmp.h>
@@ -34,7 +34,8 @@
 
 #define ID_OPEN 1000
 #define ID_ABOUT 1001
-#define ID_ITEM_PANEL 1002
+#define ID_CONVERT 1002
+#define ID_ITEM_PANEL 1003
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class MainFrameBase
@@ -47,14 +48,16 @@ class MainFrameBase : public wxFrame
 		// Private event handlers
 		void _wxFB_OnImageOpen( wxCommandEvent& event ){ OnImageOpen( event ); }
 		void _wxFB_OnAbout( wxCommandEvent& event ){ OnAbout( event ); }
-		void _wxFB_OnQualityChanged( wxScrollEvent& event ){ OnQualityChanged( event ); }
 		void _wxFB_OnConvertImg( wxCommandEvent& event ){ OnConvertImg( event ); }
+		void _wxFB_OnQualityChanged( wxScrollEvent& event ){ OnQualityChanged( event ); }
 
 
 	protected:
 		wxMenuBar* m_menubar1;
 		wxMenu* m_menu1;
 		wxMenu* m_menu11;
+		wxToolBar* m_toolBar2;
+		wxToolBarToolBase* ConvertTool;
 		wxScrolledWindow* ConvertingImagesScroller;
 		wxBoxSizer* ConvertingImagesSizer;
 		wxPanel* m_panel2;
@@ -65,13 +68,12 @@ class MainFrameBase : public wxFrame
 		wxSpinCtrl* WidthControl;
 		wxStaticText* m_staticText6;
 		wxSpinCtrl* HeightControl;
-		wxButton* ConvertBtn;
 
 		// Virtual event handlers, override them in your derived class
 		virtual void OnImageOpen( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnAbout( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnQualityChanged( wxScrollEvent& event ) { event.Skip(); }
 		virtual void OnConvertImg( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnQualityChanged( wxScrollEvent& event ) { event.Skip(); }
 
 
 	public:

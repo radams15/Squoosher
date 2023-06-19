@@ -14,10 +14,6 @@
 
 class MainFrame : public MainFrameBase {
 public:
-    enum {
-        ID_CONVERT = 2000,
-    };
-
     MainFrame();
 
     void loadImagePath(const wxString& path);
