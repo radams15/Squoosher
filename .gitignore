@@ -3,3 +3,4 @@
 *.webp
 cmake-build-debug/
 builddir/
+build/

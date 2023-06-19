@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:18.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV WXVER=3.2.2.1
@@ -13,13 +13,11 @@ RUN apt-get update && apt-get install -y \
 RUN curl -L https://github.com/wxWidgets/wxWidgets/releases/download/v${WXVER}/wxWidgets-${WXVER}.tar.bz2 -o - | tar xjf -
 WORKDIR wxWidgets-${WXVER}
 
-RUN apt-get install -y qtbase5-dev
-
 RUN mkdir -p build
 WORKDIR build
 
 RUN ../configure \
-    --with-qt \
+    --with-gtk=3 \
     --disable-shared \
     --enable-unicode
 

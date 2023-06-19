@@ -4,7 +4,7 @@ project(squoosher)
 set(CMAKE_CXX_STANDARD 11)
 set(VERSION 1.1)
 
-find_package(wxWidgets COMPONENTS core base REQUIRED)
+find_package(wxWidgets COMPONENTS core base adv REQUIRED)
 
 include( "${wxWidgets_USE_FILE}" )
 
