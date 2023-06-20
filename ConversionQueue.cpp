@@ -20,6 +20,7 @@ ConversionQueue::ConversionQueue(wxWindow *parent) :
 }
 
 void ConversionQueue::beginConversion() {
+    totalLength = queue.size()
     thread = new ConversionThread(this);
     thread->Run();
 }

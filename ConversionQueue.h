@@ -25,6 +25,7 @@ public:
     ConversionElement& dequeue();
 
     std::vector<ConversionElement> queue;
+    int totalLength;
 private:
     //bool locked = false;
     int topElement = 0;

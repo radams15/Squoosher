@@ -53,7 +53,7 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	wxBoxSizer* bSizer1;
 	bSizer1 = new wxBoxSizer( wxVERTICAL );
 
-	m_toolBar2 = wxFrame::CreateToolBar(wxTB_TEXT);
+	m_toolBar2 = new wxToolBar( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTB_TEXT );
 	m_toolBar2->SetToolBitmapSize( wxSize( 64,64 ) );
 	ConvertTool = m_toolBar2->AddTool( ID_CONVERT, wxT("Convert"), convert_png_to_wx_bitmap(), wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL );
 
