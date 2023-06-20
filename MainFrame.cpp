@@ -85,6 +85,7 @@ void MainFrame::OnConversionComplete(wxCommandEvent &event) {
 
 void MainFrame::OnItemConversionComplete(wxCommandEvent &event) {
     totalConverted++;
+    GetStatusBar()->SetStatusText(wxString::Format(_T("Converted %s"), ((ConversionElement*)event.GetEventObject())->webp->imageName));
 }
 
 void MainFrame::OnQualityChanged(wxScrollEvent &event) {
